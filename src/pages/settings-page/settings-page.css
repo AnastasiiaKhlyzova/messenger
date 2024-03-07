@@ -1,0 +1,54 @@
+@import '@/assets/variables.css';
+
+
+.settings-page {
+    width: 340px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #4B4B4B2B;
+    justify-content: space-between; 
+    align-items: center; 
+    border-radius: 12px;
+    padding: 60px;
+  }
+
+.settings-page-footer {
+    width:100%;
+    margin-top: 40px;
+  }
+
+
+.settings-page-content {
+    width:100%;
+    display:flex;
+    gap: 40px;
+    flex-direction: column;
+}
+
+
+.settings-header {
+    flex-direction: column;
+    display:flex;
+    align-items: center; 
+    margin-bottom: 40px;
+}
+
+.settings-password {
+  width: 100%;
+  display: none;
+  flex-direction: column; 
+  gap: 40px; 
+}
+
+.links {
+  width: 100%;
+  text-align: center; 
+  margin-top: 20px; 
+}
+
+.links a {
+  color: #055a1a9d;
+  text-decoration: underline; 
+  margin: 0 10px; 
+}

@@ -1,0 +1,7 @@
+@import '@/assets/variables.css';
+
+
+.chat-page {
+  height: 100%;
+  width: 100%;
+}
