@@ -44,3 +44,9 @@ https://messengeranastasia.netlify.app/
 
 Анастасия Хлызова https://github.com/Anastasiia171
 
+## Ссылка на макет в Figma
+
+https://www.figma.com/file/WUD8ynZt6SbshHEFD3ZaDW/messenger?type=design&node-id=0%3A1&mode=design&t=YQUTSjwIJZyn6yo1-1
+
+
+
