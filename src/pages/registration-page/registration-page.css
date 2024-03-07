@@ -2,36 +2,36 @@
 
 
 .registration-page {
-    width: 340px;
-    height: 720px;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #4B4B4B2B;
-    justify-content: space-between; 
-    align-items: center; 
-    border-radius: 12px;
-    padding: 60px;
-  }
+  width: 340px;
+  height: 720px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #4B4B4B2B;
+  justify-content: space-between; 
+  align-items: center; 
+  border-radius: 12px;
+  padding: 60px;
+}
 
 .registration-page-footer {
-    width:100%;
-    display:flex;
-    flex-direction: column;
+  width:100%;
+  display:flex;
+  flex-direction: column;
 
 }
 
 .registration-page-content {
-    width:100%;
-    display:flex;
-    gap: 40px;
-    flex-direction: column;
+  width:100%;
+  display:flex;
+  gap: 40px;
+  flex-direction: column;
 }
 
 
 .registration-header {
-    flex-direction: column;
-    display:flex;
-    align-items: center; 
+  flex-direction: column;
+  display:flex;
+  align-items: center; 
 }
 
 .h1 {
@@ -52,3 +52,4 @@
   text-decoration: underline; 
   margin: 0 10px; 
 }
+

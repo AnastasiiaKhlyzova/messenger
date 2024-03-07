@@ -11,7 +11,7 @@
   align-items: center; 
   border-radius: 12px;
   padding: 60px;
-  }
+}
 
 .login-page-footer {
   width:100%;
@@ -53,3 +53,4 @@
   text-decoration: underline; 
   margin: 0 10px; 
 }
+

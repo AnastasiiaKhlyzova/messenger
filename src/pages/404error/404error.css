@@ -2,27 +2,28 @@
 
 
 .page404 {
-    height: 90vh;
-    flex-direction: column;
-    display:flex;
-    justify-content: center; 
-    align-items: center; 
-    gap:40px;
+  height: 90vh;
+  flex-direction: column;
+  display:flex;
+  justify-content: center; 
+  align-items: center; 
+  gap:40px;
 }
 
 .link {
-    text-decoration: underline;
-    font-family: var(--font);
+  text-decoration: underline;
+  font-family: var(--font);
 }
 
 .links {
-    width: 100%;
-    text-align: center; 
-    margin-top: 20px; 
-  }
+  width: 100%;
+  text-align: center; 
+  margin-top: 20px; 
+}
   
 .links a {
-    color: #055a1a9d;
-    text-decoration: underline; 
-    margin: 0 10px; 
-  }
+  color: #055a1a9d;
+  text-decoration: underline; 
+  margin: 0 10px; 
+}
+
