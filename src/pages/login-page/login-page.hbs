@@ -5,21 +5,21 @@
       <h1 class="h1">Welcome back</h1>
     </div>
   
-    <div class="login-page-content">
+    <main class="login-page-content">
 
       {{> InputField title="Login" name="login" id="login" type="text"}}
       {{> InputField className="login-page__input" title="Password" name="password" type="password" id="password" }}
-    </div>
+    </main>
     <div class="login-page-footer">
       {{> Button text="Login" page="chat" className="button-primary"}}
       {{> Button text="Not registered yet?" page="chat" className="button-secondary"}}
     </div>
   </form>
-   <div class="links">
+   <nav class="links">
     <a onclick="window.navigate('404-error')">404</a>
     <a onclick="window.navigate('settings')">settings-page</a>
     <a onclick="window.navigate('500-error')">500</a>
     <a onclick="window.navigate('registration')">registration-page</a>
-  </div>
+  </nav>
 {{/ Dialog }}
 
