@@ -1,0 +1,32 @@
+@import '@/assets/variables.css';
+
+.button {
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
+  border: 0px;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: var(--button-font-size);
+}
+
+.button-primary {
+  background-color: var(--button-bgcolor);
+  color: var(--button-color-primary);
+}
+
+.button-secondary {
+  background-color: var(--button-bgcolor-secondary);
+  color: var(--button-color-secondary);
+
+}
+
+.button-onPage {
+  background-color: var(--button-bgcolor-secondary);
+  color: var(--button-color-secondary);
+  text-align: left;
+  text-decoration: underline;
+  padding: 0px;
+}
+
