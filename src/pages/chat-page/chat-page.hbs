@@ -1,15 +1,21 @@
 <div class="chat-page">
   <div class="chat-sidebar">
-  {{> ProfileSettings className='profile-settings'}}
-  {{> InputSearch className='search-container' }}
- {{> ChatSidebar  }}
+  {{!-- {{> ProfileSettings className='profile-settings'}} --}}
+   {{{ profile }}}
+  {{!-- {{> InputSearch className='search-container' }} --}}
+  {{{ inputsearch }}}
+ {{!-- {{> ChatSidebar  }} --}}
+ {{{ sidebar }}} 
 </div>
 <div class="message-block">
-  {{> MessageUser userName="Петя"}}
+  {{!-- {{> MessageUser userName="Петя"}} --}}
+  {{{ user }}} 
   <div class="messages">
-    {{> MessageList }}
+    {{!-- {{> MessageList }} --}}
+    {{{ list }}}
   </div>
-  {{> InputMessage }}
+  {{!-- {{> InputMessage }} --}}
+  {{{ inputmessage }}}
 </div>
 </div>
 

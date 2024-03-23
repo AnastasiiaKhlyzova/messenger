@@ -36,8 +36,10 @@ module.exports = {
       js: 'never',
       ts: 'never',
     }],
-    'no-underscore-dangle': ['error', { allow: ['__dirname'] }],
+    'no-underscore-dangle': ['error', { allow: ['__dirname'], allowAfterThis: true }],
     'import/no-unresolved': [2, { ignore: ['\\?raw$'] }],
+    'class-methods-use-this': 'off',
+    '@typescript-eslint/no-this-alias': 'off',
   },
   settings: {
     'import/resolver': {

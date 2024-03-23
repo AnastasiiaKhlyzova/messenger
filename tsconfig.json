@@ -12,7 +12,7 @@
       "noImplicitAny": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-},
+     },
 "include": [
   "src/**/*",
   "src/combined.d.ts",

@@ -1,6 +1,8 @@
 @import url('@/assets/variables.css');
 
 .input-container {
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
@@ -36,3 +38,13 @@
   outline: none;
 }
 
+.incorrect {
+  color: red;
+  margin-top: 5px;
+  font-size: 12px;
+  visibility: hidden;
+}
+
+.show-error {
+  visibility: unset;
+}
