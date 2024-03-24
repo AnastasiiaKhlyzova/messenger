@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "dist",
@@ -10,15 +10,14 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    },
-    "include": [
-      "src/**/*",
-      "src/combined.d.ts",
-      "global.d.ts",
-    ],
-    "exclude": [
-      "dist",
-    ],
+    "noUnusedParameters": true
+  },
+  "include": [
+    "src/**/*",
+    "src/combined.d.ts",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }
-
