@@ -44,20 +44,21 @@
     color: var(--font-color-primary);
   }
   
-  .chat-unread-count {
-    min-width: 36px;
-    height: 36px;
-    background-color: var( --button-bgcolor);
-    color: var(--text-bgcolor);
-    border-radius: 50%;
-    text-align: center;
-    font-family: var(--font);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
-    font-weight: 500;
-    font-size: var(--font-size-h1);
-    line-height: var(--line-height-h1);
-  }
-  
+.chat-unread-count {
+  min-width: 36px;
+  height: 36px;
+  background-color: var( --button-bgcolor);
+  color: var(--text-bgcolor);
+  border-radius: 50%;
+  text-align: center;
+  font-family: var(--font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+}
+
+

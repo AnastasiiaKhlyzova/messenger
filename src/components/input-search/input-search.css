@@ -13,13 +13,12 @@
   }
   
 
-  .input-search-container input {
-    width: 100%;
-    background-color: transparent;
-    font-size: var(--font-size-h1);
-    border: none;
-    outline: none; 
-  }
+.input-search-container input {
+  width: 100%;
+  background-color: transparent;
+  font-size: var(--font-size-h1);
+  border: none;
+  outline: none; 
+}
 
 
-  

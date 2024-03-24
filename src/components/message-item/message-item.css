@@ -20,11 +20,11 @@
     word-wrap: break-word; 
   }
   
-  .message-timestamp {
-    display: block; 
-    font-size: 12px; 
-    color: #666; 
-    text-align: right; 
-    margin-top: 8px; 
-  }
-  
+.message-timestamp {
+  display: block; 
+  font-size: 12px; 
+  color: #666; 
+  text-align: right; 
+  margin-top: 8px; 
+}
+

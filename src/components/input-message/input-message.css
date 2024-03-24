@@ -19,12 +19,11 @@
     font-size: var( --font-size-h1);
   }
   
- .send-message-btn {
-    background-color: var(--button-bgcolor);
-    border-radius: 50%; 
-    padding: 10px 16px; 
-    margin-left: 8px; 
-    border: none;
-   }
-  
- 
+.send-message-btn {
+  background-color: var(--button-bgcolor);
+  border-radius: 50%; 
+  padding: 10px 16px; 
+  margin-left: 8px; 
+  border: none;
+}
+
