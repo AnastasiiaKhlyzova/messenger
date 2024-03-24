@@ -18,7 +18,12 @@ export class Input extends Block {
           const name = props.name as ComponentsName;
           const onChange = props.onChange as (arg: boolean) => void;
 
-          validate(name, target.value, onChange);
+          const isValid = validate(name, target.value);
+          if (isValid) {
+            onChange(false);
+          } else {
+            onChange(true);
+          }
         },
       },
 

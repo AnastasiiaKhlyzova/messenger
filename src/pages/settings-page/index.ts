@@ -36,7 +36,7 @@ export class SettingsPage extends Block {
           title: 'Display name',
           name: 'display_name',
           type: 'text',
-          id: 'second_name',
+          id: 'display_name',
         }),
       input_email:
         new InputField({

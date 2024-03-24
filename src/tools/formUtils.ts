@@ -1,10 +1,12 @@
-import { ComponentsName, validationRules } from './validationRules';
+import { ComponentsName } from './validationRules';
+
+import { validate } from './validate';
 
 // Функция для сбора данных формы и валидации
 export function submit(e: SubmitEvent) {
   e.preventDefault();
 
-  const form = e.target as HTMLFormElement;
+  const { form } = e.target as HTMLFormElement;
 
   if (!form) {
     return;
@@ -22,9 +24,7 @@ export function submit(e: SubmitEvent) {
       const { name, value } = element;
       if (name) {
         formData[name] = value;
-        const typedName = name as ComponentsName;
-        const rule = validationRules[typedName];
-        if (rule && !rule.test(value)) {
+        if (!validate(name as ComponentsName, value)) {
           console.error(`Ошибка: значение поля ${name} невалидно.`);
           isValid = false;
         }

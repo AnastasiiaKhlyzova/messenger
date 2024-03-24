@@ -64,7 +64,7 @@ class HTTPTransport {
         xhr.setRequestHeader(key, headers[key]);
       });
 
-      xhr.onload = function () {
+      xhr.onload = () => {
         resolve(xhr);
       };
 
