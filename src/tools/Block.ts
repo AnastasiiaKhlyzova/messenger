@@ -40,6 +40,15 @@ export default class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
+  _removeEvents(): void {
+    const { events = {} } = this.props;
+    Object.keys(events).forEach((eventName) => {
+      if (this._element) {
+        this._element.removeEventListener(eventName, events[eventName]);
+      }
+    });
+  }
+
   _addEvents(): void {
     const { events = {} } = this.props;
     Object.keys(events).forEach((eventName) => {
@@ -130,6 +139,8 @@ export default class Block {
     Object.entries(this.lists).forEach(([key, _child]) => {
       propsAndStubs[key] = `<div data-id="__l_${tmpId}"></div>`;
     });
+
+    this._removeEvents();
 
     const fragment = this._createDocumentElement('template');
     fragment.innerHTML = Handlebars.compile(this.render())(propsAndStubs);

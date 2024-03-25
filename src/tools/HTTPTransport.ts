@@ -16,6 +16,8 @@ interface Options {
 
 type QueryString = string;
 
+type HTTPMethod = (url: string, options?: Options) => Promise<XMLHttpRequest>
+
 function queryStringify(data: Record<string, unknown>): QueryString {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
@@ -27,21 +29,13 @@ function queryStringify(data: Record<string, unknown>): QueryString {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class HTTPTransport {
-  get(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
-  }
+  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET }, options?.timeout);
 
-  post(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
-  }
+  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST }, options?.timeout);
 
-  put(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
-  }
+  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT }, options?.timeout);
 
-  delete(url: string, options: Options = {}): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-  }
+  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE }, options?.timeout);
 
   request(url: string, options: Options = {}, timeout: number = 5000): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
