@@ -5,6 +5,7 @@ import './login-page.css';
 import LoginPageRaw from './login-page.hbs?raw';
 import { submit } from '../../tools/formUtils';
 import { ComponentsName } from '../../tools/validationRules';
+import Router from '../../tools/Router';
 
 interface Props {
   [key: string]: unknown;
@@ -43,6 +44,10 @@ export class LoginPage extends Block {
           className: 'button-primary',
           type: 'submit',
           submit,
+          navigate: () => {
+            const router = new Router('app');
+            router.go('/messenger');
+          },
           id: 'login-button',
         }),
       button_secondary:
@@ -51,6 +56,10 @@ export class LoginPage extends Block {
           page: 'login',
           className: 'button-secondary',
           id: 'register-button',
+          navigate: () => {
+            const router = new Router('app');
+            router.go('/sign-up');
+          },
         }),
 
     });

@@ -5,7 +5,7 @@ import Block from '../../tools/Block';
 import { submit } from '../../tools/formUtils';
 import { ComponentsName } from '../../tools/validationRules';
 import './chat-page.css';
-
+import Router from '../../tools/Router';
 import ChatPageRaw from './chat-page.hbs?raw';
 
 interface Props {
@@ -19,7 +19,12 @@ export class ChatPage extends Block {
       profile: [
         new ProfileSettings({
           className: 'profile-settings',
-        })],
+          navigate: () => {
+            const router = new Router('app');
+            router.go('/settings');
+          },
+        }),
+      ],
       inputsearch: [
         new InputSearch({
           className: 'search-container',

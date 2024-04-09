@@ -5,6 +5,7 @@ import { ComponentsName } from '../../tools/validationRules';
 import './settings-page.css';
 
 import SettingsPageRaw from './settings-page.hbs?raw';
+import Router from '../../tools/Router';
 
 export class SettingsPage extends Block {
   htmlTemplate: string;
@@ -105,6 +106,11 @@ export class SettingsPage extends Block {
           className: 'button-primary',
           type: 'submit',
           submit,
+          navigate: () => {
+            const router = new Router('app');
+            console.log('srabotalo');
+            router.go('/messenger');
+          },
         }),
     });
 

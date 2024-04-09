@@ -18,6 +18,10 @@ export class Button extends Block {
             const submit = props.submit as (event: SubmitEvent) => void;
             submit(e);
           }
+          if (props.navigate) {
+            const navigate = props.navigate as () => void;
+            navigate();
+          }
         },
       },
     });

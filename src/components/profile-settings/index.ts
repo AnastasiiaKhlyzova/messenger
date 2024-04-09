@@ -11,7 +11,14 @@ export class ProfileSettings extends Block {
     super({
       ...props,
       events: {
-        click: () => console.log('event'),
+        click: (e: SubmitEvent) => {
+          e.preventDefault();
+
+          if (props.navigate) {
+            const navigate = props.navigate as () => void;
+            navigate();
+          }
+        },
       },
     });
   }

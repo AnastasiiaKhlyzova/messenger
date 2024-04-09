@@ -5,6 +5,7 @@ import { ComponentsName } from '../../tools/validationRules';
 import './registration-page.css';
 
 import RegistrPageRaw from './registration-page.hbs?raw';
+import Router from '../../tools/Router';
 
 interface Props {
   [key: string]: unknown;
@@ -83,6 +84,10 @@ export class RegistrationPage extends Block {
           className: 'button-primary',
           type: 'submit',
           submit,
+          navigate: () => {
+            const router = new Router('app');
+            router.go('/messenger');
+          },
         }),
 
     });
