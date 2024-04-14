@@ -1,4 +1,6 @@
-import { Button, InputField } from '../../components';
+import {
+  Button, Input, InputField, Avatar,
+} from '../../components';
 import Block, { Props } from '../../tools/Block';
 import { submit } from '../../tools/formUtils';
 import { ComponentsName } from '../../tools/validationRules';
@@ -6,12 +8,27 @@ import './settings-page.css';
 
 import SettingsPageRaw from './settings-page.hbs?raw';
 import Router from '../../tools/Router';
+import UserController from '../../controllers/user-controller';
 
 export class SettingsPage extends Block {
   htmlTemplate: string;
 
   constructor() {
     super({
+      avatar:
+      new Avatar({
+        download: () => {
+          this.initAvatarChange();
+        },
+      }),
+      input_avatar:
+      new Input({
+        title: 'Downloud image',
+        className: 'input-for-avatar',
+        id: 'for_avatar',
+        type: 'file',
+
+      }),
       input_first_name:
         new InputField({
           title: 'First name',
@@ -38,6 +55,9 @@ export class SettingsPage extends Block {
           name: 'display_name',
           type: 'text',
           id: 'display_name',
+          onChange: () => {
+
+          },
         }),
       input_email:
         new InputField({
@@ -70,13 +90,13 @@ export class SettingsPage extends Block {
           },
         }),
 
-      button:
-        new Button({
-          text: 'Change password',
-          page: 'chat',
-          className: 'button-on-page',
-          id: 'changePasswordBtn',
-        }),
+      // button:
+      //   new Button({
+      //     text: 'Change password',
+      //     page: 'chat',
+      //     className: 'button-on-page',
+      //     id: 'changePasswordBtn',
+      //   }),
 
       input_oldPassword:
         new InputField({
@@ -105,11 +125,37 @@ export class SettingsPage extends Block {
           page: 'chat',
           className: 'button-primary',
           type: 'submit',
-          submit,
+          submit: (e) => {
+            const formData = new FormData(e.target.form);
+
+            const userObj = {};
+
+            Array.from(formData.entries()).forEach(([key, value]) => {
+              userObj[key] = value;
+            });
+            console.log('ddd', userObj);
+            UserController.updateUserProfile(userObj);
+          },
           navigate: () => {
             const router = new Router('app');
             console.log('srabotalo');
             router.go('/messenger');
+          },
+        }),
+      button_signout:
+        new Button({
+          text: 'Log out',
+          page: 'Login',
+          className: 'button-on-page',
+          type: 'button',
+          logout: () => {
+            UserController.signoutUser();
+            console.log('dc');
+          },
+          navigate: () => {
+            // const router = new Router('app');
+            // // console.log('srabotalo');
+            // router.go('/');
           },
         }),
     });
@@ -145,5 +191,35 @@ export class SettingsPage extends Block {
     }
 
     return true;
+  }
+
+  override componentDidMount(): void {
+
+  }
+
+  public initAvatarChange(): void {
+    const avatarInput = document.getElementById('for_avatar') as HTMLInputElement;
+    avatarInput.click();
+
+    avatarInput?.addEventListener('change', this.handleAvatarChange.bind(this));
+  }
+
+  private handleAvatarChange() {
+    const avatarInput = document.getElementById('for_avatar') as HTMLInputElement;
+    if (!avatarInput.files || avatarInput.files.length === 0) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('avatar', avatarInput.files[0]);
+
+    UserController.updateUserAvatar(formData).then(() => {
+      // После успешной загрузки обновите изображение аватара на странице
+      const avatarImage = document.getElementById('avatarImage') as HTMLImageElement;
+      // Обновите src изображения аватара на новый URL, если сервер возвращает его,
+      // иначе используйте URL.createObjectURL для отображения загруженного файла
+      avatarImage.src = URL.createObjectURL(avatarInput.files[0]);
+    }).catch((error) => {
+      console.error('Ошибка при обновлении аватара:', error);
+    });
   }
 }

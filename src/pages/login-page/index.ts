@@ -6,6 +6,7 @@ import LoginPageRaw from './login-page.hbs?raw';
 import { submit } from '../../tools/formUtils';
 import { ComponentsName } from '../../tools/validationRules';
 import Router from '../../tools/Router';
+import UserController from '../../controllers/user-controller';
 
 interface Props {
   [key: string]: unknown;
@@ -43,7 +44,17 @@ export class LoginPage extends Block {
           page: 'login',
           className: 'button-primary',
           type: 'submit',
-          submit,
+          submit: (e) => {
+            const formData = new FormData(e.target.form);
+
+            const userObj = {};
+
+            Array.from(formData.entries()).forEach(([key, value]) => {
+              userObj[key] = value;
+            });
+
+            UserController.signinUser(userObj);
+          },
           navigate: () => {
             const router = new Router('app');
             router.go('/messenger');

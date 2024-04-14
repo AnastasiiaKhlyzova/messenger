@@ -24,11 +24,46 @@ const reducer = (state, action) => {
     newState.buttonText = action.buttonText;
     return newState;
   }
+
+  if (action.type === 'SET_CHATS') {
+    console.log('SET_CHATS');
+    newState.chats = action.chats;
+    return newState;
+  }
+
   return state;
 };
 
 const state = {
-  buttonText: 'Initial text',
+  chats: [
+    {
+      id: 703,
+      title: 'Захардкоженный чат',
+      avatar: null,
+      created_by: 69,
+      unread_count: 2,
+      last_message: {
+        user: {
+          first_name: 'Hfdbvgdg',
+          second_name: 'D',
+          display_name: null,
+          login: 'pupupu',
+          avatar: null,
+        },
+        time: '2024-04-13T11:12:11+00:00',
+        content: 'хардкод из стора!',
+        id: 361,
+      },
+    },
+    {
+      id: 697,
+      title: 'Захардкоженный чат',
+      avatar: null,
+      created_by: 69,
+      unread_count: 0,
+      last_message: null,
+    },
+  ],
 };
 
 const setTextAction = {

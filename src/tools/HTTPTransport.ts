@@ -28,7 +28,7 @@ function queryStringify(data: Record<string, unknown>): QueryString {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class HTTPTransport {
+export default class HTTPTransport {
   get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET }, options?.timeout);
 
   post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST }, options?.timeout);
@@ -66,14 +66,24 @@ class HTTPTransport {
       xhr.onerror = () => reject(new Error('Request failed'));
 
       xhr.timeout = timeout;
+      xhr.withCredentials = true;
       xhr.ontimeout = () => reject(new Error('Request timeout exceeded'));
 
-      if (!isGet && data) {
+      if (method === 'GET' || !data) {
+        xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
-      } else {
-        xhr.send();
       }
+
+      // if (!isGet && data) {
+      //   xhr.setRequestHeader('Content-Type', 'application/json');
+      //   xhr.send(JSON.stringify(data));
+      // } else {
+      //   xhr.send();
+      // }
     });
   }
 }

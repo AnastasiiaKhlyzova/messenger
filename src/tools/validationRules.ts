@@ -11,11 +11,18 @@ export enum ComponentsName {
 }
 
 export const validationRules = {
-  [ComponentsName.FIRST_NAME]: /^[A-ZА-Я][a-zа-я-]*$/,
-  [ComponentsName.SECOND_NAME]: /^[A-ZА-Я][a-zа-я-]*$/,
-  [ComponentsName.LOGIN]: /^(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,20}$/,
-  [ComponentsName.EMAIL]: /^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-  [ComponentsName.PASSWORD]: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
-  [ComponentsName.PHONE]: /^\+?\d{10,15}$/,
+  // [ComponentsName.FIRST_NAME]: /^[A-ZА-Я][a-zа-я-]*$/,
+  // [ComponentsName.SECOND_NAME]: /^[A-ZА-Я][a-zа-я-]*$/,
+  // [ComponentsName.LOGIN]: /^(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,20}$/,
+  // [ComponentsName.EMAIL]: /^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+  // [ComponentsName.PASSWORD]: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
+  // [ComponentsName.PHONE]: /^\+?\d{10,15}$/,
+  [ComponentsName.MESSAGE]: /\S+/,
+  [ComponentsName.FIRST_NAME]: /\S+/,
+  [ComponentsName.SECOND_NAME]: /\S+/,
+  [ComponentsName.LOGIN]: /\S+/,
+  [ComponentsName.EMAIL]: /\S+/,
+  [ComponentsName.PASSWORD]: /\S+/,
+  [ComponentsName.PHONE]: /\S+/,
   [ComponentsName.MESSAGE]: /\S+/,
 };

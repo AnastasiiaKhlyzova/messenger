@@ -17,4 +17,13 @@ export class ChatItem extends Block {
   render() {
     return ChatItemRaw;
   }
+
+  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    console.log('hello1111', oldProps, newProps);
+
+    if (oldProps.chats !== newProps.chats) {
+      this.setProps({ chats: newProps.chats });
+    }
+    return true;
+  }
 }

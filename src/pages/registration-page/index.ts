@@ -6,6 +6,7 @@ import './registration-page.css';
 
 import RegistrPageRaw from './registration-page.hbs?raw';
 import Router from '../../tools/Router';
+import UserController from '../../controllers/user-controller';
 
 interface Props {
   [key: string]: unknown;
@@ -83,7 +84,16 @@ export class RegistrationPage extends Block {
           page: 'chat',
           className: 'button-primary',
           type: 'submit',
-          submit,
+          submit: (e) => {
+            const formData = new FormData(e.target.form);
+
+            const userObj = {};
+
+            Array.from(formData.entries()).forEach(([key, value]) => {
+              userObj[key] = value;
+            });
+            UserController.createUser(userObj);
+          },
           navigate: () => {
             const router = new Router('app');
             router.go('/messenger');
