@@ -1,14 +1,13 @@
 import { Button, InputField } from "../../components";
 import Block from "../../tools/Block";
-import { submit } from "../../tools/formUtils";
 import { ComponentsName } from "../../tools/validationRules";
 import "./registration-page.css";
 
 import RegistrPageRaw from "./registration-page.hbs";
 import UserController from "../../controllers/user-controller";
 import router from "../../tools/router";
-import store from "../../tools/Store";
 import AuthController from "../../controllers/auth-controller";
+import { SignUpRequest } from "../../api/types";
 
 interface Props {
   [key: string]: unknown;
@@ -79,19 +78,21 @@ export class RegistrationPage extends Block {
         page: "chat",
         className: "button-primary",
         type: "submit",
-        submit: e => {
-          const formData = new FormData(e.target.form);
-          const userObj = {};
+        onClick: e => {
+          const target = e!.target as HTMLInputElement;
+          const formData = new FormData(target.form!);
 
-          Array.from(formData.entries()).forEach(([key, value]) => {
-            userObj[key] = value;
-          });
+          const userObj = {} as SignUpRequest;
+
+          Array.from(formData.entries()).forEach(
+            ([key, value]: [string, string]) => {
+              userObj[key] = value;
+            }
+          );
 
           AuthController.createUser(userObj)
             .then(() => UserController.getUserInfo())
-            .then(userInfo => {
-              store.dispatch("user", userInfo);
-              console.log("user", userInfo);
+            .then(() => {
               router.go("/messenger");
             })
             .catch(error => {

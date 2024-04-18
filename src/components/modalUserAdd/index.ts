@@ -6,11 +6,13 @@ import ModaltRaw from "./modalUserAdd.hbs";
 import "./modalUserAdd.css";
 import { InputField } from "../input-field";
 import UserController from "../../controllers/user-controller";
-import store, { StoreEvents } from "../../tools/Store";
+import store, { SearchAddUser, StoreEvents } from "../../tools/Store";
 import { UserItem } from "../searchUserItem";
+import { ComponentsName } from "../../tools/validationRules";
+import ChatController from "../../controllers/chat-controller";
 
 interface Props {
-  [key: string]: unknown;
+  closeModal: () => void;
 }
 
 export class Modal extends Block {
@@ -18,19 +20,25 @@ export class Modal extends Block {
     super({
       ...props,
       button_close: new Button({
-        closeModal: props.closeModal,
+        onClick: props.closeModal,
         text: "close",
       }),
       fragment: new Fragment({}),
       button_search: new Button({
         text: "search",
-        click: (e: MouseEvent) => {
-          const input = document.querySelector("#find-user");
-          console.log(input.value);
+        onClick: () => {
+          const input = document.querySelector(
+            "#find-user"
+          ) as HTMLInputElement;
           UserController.userSearch({ login: input.value });
         },
       }),
-      input_find_user: new InputField({ onChange: () => {}, id: "find-user" }),
+      input_find_user: new InputField({
+        onChange: () => {},
+        id: "find-user",
+        type: "input",
+        name: ComponentsName.MESSAGE,
+      }),
     });
     store.on(StoreEvents.Updated, () => {
       this.setProps(store.getState());
@@ -41,14 +49,17 @@ export class Modal extends Block {
     return this.compile(ModaltRaw, this.props);
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(
+    oldProps: Props,
+    newProps: { usersSearchResult: SearchAddUser[] }
+  ): boolean {
     if (newProps.usersSearchResult) {
       const currentState = store.getState();
       this.children.usersList = newProps.usersSearchResult?.map(user => {
         const handler = () => {
           ChatController.addUsersToChat({
             users: [user.id],
-            chatId: currentState.currentChat,
+            chatId: currentState.currentChat!,
           });
         };
 

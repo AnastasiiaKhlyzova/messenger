@@ -1,12 +1,12 @@
-import Block, { Props } from "../../tools/Block";
+import Block from "../../tools/Block";
 import { ChatItem } from "../chat-item";
 import "./chat-sidebar.css";
-import store, { StoreEvents } from "../../tools/Store";
+import store, { ChatInfo, StoreEvents } from "../../tools/Store";
 
 import ChatSidebarRaw from "./chat-sidebar.hbs";
 import UserController from "../../controllers/user-controller";
 import MyWebSocket from "../../tools/webSocket";
-import { MessageItem } from "../message-item";
+
 import { Button } from "../button";
 import { ModalCreateChat } from "../modalCreateChat";
 import ChatController from "../../controllers/chat-controller";
@@ -29,13 +29,10 @@ export class ChatSidebar extends Block {
   }
   override init() {
     const openCreateChatModal = () => {
-      console.log("rrr", this);
       this.children.modalCreatechat.setProps({ isOpen: true });
     };
     const closeCreateChatModal = () => {
-      // this.children.modal = new Fragment({});
       this.children.modalCreatechat.setProps({ isOpen: false });
-      console.log("srabotalo");
     };
 
     this.children.modalCreatechat = new ModalCreateChat({
@@ -44,14 +41,18 @@ export class ChatSidebar extends Block {
     this.children.button_create_chat = new Button({
       text: "Create chat",
       page: "chat",
-      openModal: openCreateChatModal,
+      className: "button-primary",
+      onClick: openCreateChatModal,
     });
   }
   override render() {
     return this.compile(ChatSidebarRaw, this.props);
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(
+    oldProps: Props,
+    newProps: { chats: ChatInfo[] }
+  ): boolean {
     if (newProps.chats) {
       this.children.chatsList = newProps.chats?.map(
         chat =>
@@ -61,17 +62,12 @@ export class ChatSidebar extends Block {
             unreadCount: chat.unread_count,
             click: async () => {
               store.dispatch("currentChat", chat.id);
-              const token = await ChatController.ChatTokenId(chat.id);
+              await ChatController.ChatTokenId(chat.id);
 
-              store.dispatch(
-                "currentChatToken",
-                JSON.parse(token.response).token
-              );
-
-              const userInfo = await UserController.getUserInfo();
-              store.dispatch("user", JSON.parse(userInfo.response));
+              await UserController.getUserInfo();
 
               const currentStore = store.getState();
+              console.log("user id", currentStore.user.id);
               const socket = new MyWebSocket(
                 `wss://ya-praktikum.tech/ws/chats/${currentStore.user.id}/${currentStore.currentChat}/${currentStore.currentChatToken}`
               );
@@ -79,10 +75,10 @@ export class ChatSidebar extends Block {
 
               socket.on("messages", data => {
                 if (Array.isArray(data)) {
-                  store.dispatch("messages", data.reverse());
+                  store.dispatch("messages", data);
                 } else {
                   const lastMessages = store.getState().messages;
-                  const newMessagesToDispatch = [...lastMessages, data];
+                  const newMessagesToDispatch = [data, ...lastMessages!];
                   if (lastMessages) {
                     store.dispatch("messages", newMessagesToDispatch);
                   }
@@ -95,10 +91,9 @@ export class ChatSidebar extends Block {
 
               socket.recieveMessages();
 
-              // store.dispatch("messages")
               const currentState = store.getState();
               console.log("nnn", currentState);
-              ChatController.getChatUsers(currentState.currentChat);
+              ChatController.getUsersInChat(currentState.currentChat!);
             },
           })
       );

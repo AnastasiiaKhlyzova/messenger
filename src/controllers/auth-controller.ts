@@ -1,19 +1,17 @@
 import store from "../tools/Store";
-import AuthAPI from "../api/auth-api.js";
+import AuthAPI from "../api/auth-api";
+import { SignInRequest, SignUpRequest } from "../api/types";
 
 export default class AuthController {
-  public static createUser(data) {
-    console.log("allo");
+  public static createUser(data: SignUpRequest) {
     return AuthAPI.create(data);
   }
 
-  public static signinUser(data) {
-    console.log("login attempt");
+  public static signinUser(data: SignInRequest) {
     return AuthAPI.signin(data);
   }
 
   public static signoutUser() {
-    console.log("logout");
     AuthAPI.signout().then(data => console.log(data));
   }
 }

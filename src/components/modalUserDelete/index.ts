@@ -1,17 +1,14 @@
 import Block from "../../tools/Block";
 import { Button } from "../button";
 import { Fragment } from "../fragment";
-
 import ModalUserDeletetRaw from "./modalUserDelete.hbs";
 import "./modalUserDelete.css";
-import { InputField } from "../input-field";
-import UserController from "../../controllers/user-controller";
-import store, { StoreEvents } from "../../tools/Store";
+import store, { StoreEvents, User } from "../../tools/Store";
 import { UserItem } from "../searchUserItem";
 import ChatController from "../../controllers/chat-controller";
 
 interface Props {
-  [key: string]: unknown;
+  closeModal: () => void;
 }
 
 export class ModalUserDelete extends Block {
@@ -19,7 +16,7 @@ export class ModalUserDelete extends Block {
     super({
       ...props,
       button_close: new Button({
-        closeModal: props.closeModal,
+        onClick: props.closeModal,
         text: "close",
       }),
       fragment: new Fragment({}),
@@ -35,14 +32,17 @@ export class ModalUserDelete extends Block {
     return this.compile(ModalUserDeletetRaw, this.props);
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(
+    oldProps: Props,
+    newProps: { usersInCurrentChat: User[] }
+  ): boolean {
     if (newProps.usersInCurrentChat) {
       const currentState = store.getState();
       this.children.usersList = newProps.usersInCurrentChat?.map(user => {
         const handler = () => {
           ChatController.DeleteUserFromChat({
             users: [user.id],
-            chatId: currentState.currentChat,
+            chatId: currentState.currentChat!,
           });
         };
         return new UserItem({

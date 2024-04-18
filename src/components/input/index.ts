@@ -5,7 +5,12 @@ import { ComponentsName } from "../../tools/validationRules";
 import "./input.css";
 
 interface Props {
-  [key: string]: unknown;
+  name: ComponentsName;
+  onChange: (arg: boolean) => void;
+  type: string;
+  id: string | number;
+  title?: string;
+  className?: string;
 }
 
 export class Input extends Block {
@@ -16,8 +21,8 @@ export class Input extends Block {
       events: {
         blur: (e: FocusEvent) => {
           const target = e.target as HTMLInputElement;
-          const name = props.name as ComponentsName;
-          const onChange = props.onChange as (arg: boolean) => void;
+          const name = props.name;
+          const onChange = props.onChange;
 
           const isValid = validate(name, target.value);
           if (isValid) {

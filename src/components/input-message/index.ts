@@ -12,16 +12,14 @@ export class InputMessage extends Block {
     super({
       ...props,
       events: {
-        submit: e => {
+        submit: (e: SubmitEvent) => {
           e.preventDefault();
           const currentStore = store.getState();
           const currentSocket = currentStore.currentSocket;
 
-          console.log("tut");
-
-          const inputElement = e.target.elements["message"];
+          const inputElement = e.target?.elements["message"];
           const message = inputElement.value;
-          console.log("tuta", message);
+
           currentSocket?.sendMessage(message);
         },
       },
@@ -31,16 +29,4 @@ export class InputMessage extends Block {
   override render() {
     return this.compile(InputMessageRaw, this.props);
   }
-  // for future
-  // validate(e) {
-  //   e.preventDefault();
-  //   const { name, value } = this.props;
-  //   console.log(name);
-  //   const rule = validationRules[name];
-  //   if (!rule.test(value)) {
-  //     console.error(`Ошибка: значение поля ${name} невалидно.`);
-  //   } else {
-  //     console.log(`Поле ${name} валидно.`);
-  //   }
-  // }
 }

@@ -1,6 +1,5 @@
 import { Button, Input, InputField, Avatar } from "../../components";
-import Block, { Props } from "../../tools/Block";
-import { submit } from "../../tools/formUtils";
+import Block from "../../tools/Block";
 import { ComponentsName } from "../../tools/validationRules";
 import "./settings-page.css";
 
@@ -9,6 +8,7 @@ import UserController from "../../controllers/user-controller";
 import router from "../../tools/router";
 import store, { StoreEvents } from "../../tools/Store";
 import AuthController from "../../controllers/auth-controller";
+import { UpdateProfileRequest } from "../../api/types";
 
 export class SettingsPage extends Block {
   htmlTemplate: string;
@@ -25,6 +25,8 @@ export class SettingsPage extends Block {
         className: "input-for-avatar",
         id: "for_avatar",
         type: "file",
+        onChange: () => {},
+        name: ComponentsName.MESSAGE,
       }),
       input_first_name: new InputField({
         title: "First name",
@@ -46,7 +48,7 @@ export class SettingsPage extends Block {
       }),
       input_display_name: new InputField({
         title: "Display name",
-        name: "display_name",
+        name: ComponentsName.DISPLAY_NAME,
         type: "text",
         id: "display_name",
         onChange: () => {},
@@ -79,17 +81,9 @@ export class SettingsPage extends Block {
         },
       }),
 
-      // button:
-      //   new Button({
-      //     text: 'Change password',
-      //     page: 'chat',
-      //     className: 'button-on-page',
-      //     id: 'changePasswordBtn',
-      //   }),
-
       input_oldPassword: new InputField({
         title: "Old password",
-        name: "oldPassword",
+        name: ComponentsName.OLD_PASSWORD,
         id: "oldPassword",
         type: "password",
         onChange: (value: boolean) => {
@@ -98,7 +92,7 @@ export class SettingsPage extends Block {
       }),
       input_newPassword: new InputField({
         title: "New password",
-        name: "newPassword",
+        name: ComponentsName.OLD_PASSWORD,
         id: "newPassword",
         type: "password",
         onChange: (value: boolean) => {
@@ -111,20 +105,20 @@ export class SettingsPage extends Block {
         page: "chat",
         className: "button-primary",
         type: "submit",
-        submit: e => {
-          const formData = new FormData(e.target.form);
+        onClick: e => {
+          const target = e!.target as HTMLInputElement;
+          const formData = new FormData(target.form!);
 
-          const userObj = {};
+          const userObj = {} as UpdateProfileRequest;
 
-          Array.from(formData.entries()).forEach(([key, value]) => {
-            userObj[key] = value;
-          });
-          console.log("ddd", userObj);
-          UserController.updateUserProfile(userObj);
-        },
-        navigate: () => {
-          console.log("srabotalo");
-          router.go("/messenger");
+          Array.from(formData.entries()).forEach(
+            ([key, value]: [string, string]) => {
+              userObj[key] = value;
+            }
+          );
+          UserController.updateUserProfile(userObj).then(() =>
+            router.go("/messenger")
+          );
         },
       }),
       button_signout: new Button({
@@ -132,20 +126,13 @@ export class SettingsPage extends Block {
         page: "Login",
         className: "button-on-page",
         type: "button",
-        logout: () => {
+        onClick: () => {
           AuthController.signoutUser();
-          console.log("dc");
-        },
-        navigate: () => {
-          // const router = new Router('app');
-          // // console.log('srabotalo');
-          // router.go('/');
+          router.go("/");
         },
       }),
     });
-    UserController.getUserInfo().then(data =>
-      store.dispatch("user", JSON.parse(data.response))
-    );
+    UserController.getUserInfo();
     store.on(StoreEvents.Updated, () => {
       this.setProps(store.getState());
     });
@@ -214,12 +201,9 @@ export class SettingsPage extends Block {
 
     UserController.updateUserAvatar(formData)
       .then(avatar => {
-        // После успешной загрузки обновите изображение аватара на странице
         const avatarImage = document.getElementById(
           "avatarImage"
         ) as HTMLImageElement;
-        // Обновите src изображения аватара на новый URL, если сервер возвращает его,
-        // иначе используйте URL.createObjectURL для отображения загруженного файла
 
         avatarImage.src = `https://ya-praktikum.tech/api/v2/resources/${JSON.parse(avatar.response).avatar}`;
       })

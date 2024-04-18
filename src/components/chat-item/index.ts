@@ -4,7 +4,10 @@ import "./chat-item.css";
 import ChatItemRaw from "./chat-item.hbs";
 
 interface Props {
-  [key: string]: unknown;
+  click: () => void;
+  name: string;
+  lastMessage?: string;
+  unreadCount: number;
 }
 
 export class ChatItem extends Block {
@@ -13,10 +16,7 @@ export class ChatItem extends Block {
       ...props,
       events: {
         click: () => {
-          if (props.click) {
-            const click = props.click as () => void;
-            click();
-          }
+          props.click();
         },
       },
     });

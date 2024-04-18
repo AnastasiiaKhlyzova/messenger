@@ -1,17 +1,16 @@
 import Block from "../../tools/Block";
 import { Button } from "../button";
 import { Fragment } from "../fragment";
-
 import ModalCreateChattRaw from "./modalCreateChat.hbs";
 import "./modalCreateChat.css";
 import { InputField } from "../input-field";
-import UserController from "../../controllers/user-controller";
-import store, { StoreEvents } from "../../tools/Store";
+import store, { SearchAddUser, StoreEvents } from "../../tools/Store";
 import { UserItem } from "../searchUserItem";
 import ChatController from "../../controllers/chat-controller";
+import { ComponentsName } from "../../tools/validationRules";
 
 interface Props {
-  [key: string]: unknown;
+  closeModal: () => void;
 }
 
 export class ModalCreateChat extends Block {
@@ -19,15 +18,17 @@ export class ModalCreateChat extends Block {
     super({
       ...props,
       button_close: new Button({
-        closeModal: props.closeModal,
+        onClick: props.closeModal,
         text: "close",
       }),
       fragment: new Fragment({}),
       button_create: new Button({
         text: "Create Chat",
-        click: (e: MouseEvent) => {
-          const input = document.querySelector("#chat-title");
-          console.log(input.value);
+        onClick: () => {
+          const input = document.querySelector(
+            "#chat-title"
+          ) as HTMLInputElement;
+
           ChatController.createChats({ title: input.value }).then(() => {
             ChatController.getUsersChats();
           });
@@ -36,6 +37,8 @@ export class ModalCreateChat extends Block {
       input_title_chat: new InputField({
         onChange: () => {},
         id: "chat-title",
+        type: "input",
+        name: ComponentsName.MESSAGE,
       }),
     });
     store.on(StoreEvents.Updated, () => {
@@ -47,14 +50,17 @@ export class ModalCreateChat extends Block {
     return this.compile(ModalCreateChattRaw, this.props);
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(
+    oldProps: Props,
+    newProps: { usersSearchResult: SearchAddUser[] }
+  ): boolean {
     if (newProps.usersSearchResult) {
       const currentState = store.getState();
       this.children.usersList = newProps.usersSearchResult?.map(user => {
         const handler = () => {
           ChatController.addUsersToChat({
             users: [user.id],
-            chatId: currentState.currentChat,
+            chatId: currentState.currentChat!,
           });
         };
 

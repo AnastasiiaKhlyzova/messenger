@@ -1,20 +1,18 @@
 import Block from "../../tools/Block";
 import AvatarRaw from "./avatar.hbs";
+import "./avatar.css";
 
 interface Props {
-  [key: string]: unknown;
+  download: () => void;
 }
+
 export class Avatar extends Block {
   constructor(props: Props) {
     super({
       ...props,
       events: {
         click: () => {
-          console.log("clicked");
-          if (props.download) {
-            const download = props.download as () => void;
-            download();
-          }
+          props.download();
         },
       },
     });

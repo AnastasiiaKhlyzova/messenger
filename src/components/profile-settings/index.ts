@@ -4,7 +4,9 @@ import "./profile-settings.css";
 import ProfileSettingsRaw from "./profile-settings.hbs";
 
 interface Props {
-  [key: string]: unknown;
+  navigate: () => void;
+  url?: string;
+  className?: string;
 }
 export class ProfileSettings extends Block {
   constructor(props: Props) {

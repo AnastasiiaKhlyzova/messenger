@@ -1,12 +1,17 @@
 <div class="message-list">
-     {{{ button_primary }}}
-     {{{ button_delete_user }}}
+    <div class="buttons"> 
+        {{{ button_primary }}}
+        {{{ button_delete_user }}}
+     </div>
+     <div class="messages">
          {{#each messageItems}}
             {{{this}}}
         {{/each}}
-        {{{ inputmessage }}}
-
-            {{{ modal }}}
-            {{{ modalUserDelete }}}
+        </div>
+            <div class="input-message">
+                {{{ inputmessage }}}
+            </div>
+        {{{ modal }}}
+        {{{ modalUserDelete }}}
 
 </div>

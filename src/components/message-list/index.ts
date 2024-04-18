@@ -1,15 +1,10 @@
-import UserController from "../../controllers/user-controller";
 import Block from "../../tools/Block";
-import store, { StoreEvents } from "../../tools/Store";
-import { submit } from "../../tools/formUtils";
+import store, { Message, StoreEvents } from "../../tools/Store";
 import { ComponentsName } from "../../tools/validationRules";
-import MyWebSocket from "../../tools/webSocket";
 import { Button } from "../button";
-import { ChatItem } from "../chat-item";
-import { Fragment } from "../fragment";
 import { InputMessage } from "../input-message";
 import { MessageItem } from "../message-item";
-import { MessageListEmpty } from "../messageListEmpty";
+import { MessageBlockEmpty } from "../messageBlockEmpty";
 import { Modal } from "../modalUserAdd";
 import { ModalUserDelete } from "../modalUserDelete";
 import "./message-list.css";
@@ -36,58 +31,56 @@ export class MessageList extends Block {
 
   init() {
     const closeModal = () => {
-      // this.children.modal = new Fragment({});
       this.children.modal.setProps({ isOpen: false });
       console.log("srabotalo");
     };
     const closeModalDeleteUser = () => {
-      // this.children.modal = new Fragment({});
-      this.children.modal.setProps({ isOpen: false });
+      this.children.modalUserDelete.setProps({ isOpen: false });
       console.log("srabotalo");
     };
-    this.children.messageItems = [new MessageListEmpty({})];
+    this.children.messageItems = [new MessageBlockEmpty({})];
     this.children.modal = new Modal({ closeModal: closeModal });
     this.children.modalUserDelete = new ModalUserDelete({
-      closeModal: closeModal,
+      closeModal: closeModalDeleteUser,
     });
   }
 
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+  componentDidUpdate(
+    oldProps: Props,
+    newProps: { messages: Message[] }
+  ): boolean {
     if (newProps.messages && newProps.messages.length >= 0) {
       const currentStore = store.getState();
-      console.log("fff", newProps.messages);
       this.children.messageItems = newProps.messages.map(message => {
         const isMessageFromCurrentUser =
           currentStore.user.id == message.user_id;
         return new MessageItem({
           text: message.content,
-          timestamp: message.timestamp,
+          timestamp: message.time,
           isUserMessage: isMessageFromCurrentUser,
         });
       });
 
       const openModal = () => {
-        console.log("rrr", this);
         this.children.modal.setProps({ isOpen: true });
       };
       const openModalDeleteUser = () => {
-        console.log("rrr", this);
         this.children.modalUserDelete.setProps({ isOpen: true });
       };
 
       this.children.button_primary = new Button({
         text: "Add user",
         page: "chat-page",
-        className: "button-primary",
+        className: "button-for-chat",
         type: "button",
-        openModal: openModal,
+        onClick: openModal,
       });
       this.children.button_delete_user = new Button({
         text: "Delete user",
         page: "chat-page",
-        className: "button-primary",
+        className: "button-for-chat",
         type: "button",
-        openModal: openModalDeleteUser,
+        onClick: openModalDeleteUser,
       });
 
       this.children.inputmessage = new InputMessage({

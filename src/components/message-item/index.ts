@@ -11,9 +11,6 @@ export class MessageItem extends Block {
   constructor(props: Props) {
     super({
       ...props,
-      events: {
-        click: () => console.log("event"),
-      },
     });
   }
 

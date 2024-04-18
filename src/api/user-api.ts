@@ -1,37 +1,39 @@
 import HTTP from "../tools/HTTPTransport";
-import { BaseAPI } from "./base-api";
+import {
+  ChangePasswordRequest,
+  UpdateProfileRequest,
+  UserSearchRequest,
+} from "./types";
 
 const userAPIInstance = new HTTP();
 
-export default class UserAPI extends BaseAPI {
-  static updateProfile(data) {
+export default class UserAPI {
+  static updateProfile(data: UpdateProfileRequest) {
     return userAPIInstance.put(
       "https://ya-praktikum.tech/api/v2/user/profile",
       { data }
     );
   }
 
-  static updateAvatar(data) {
+  static updateAvatar(data: FormData) {
     return userAPIInstance.put(
       "https://ya-praktikum.tech/api/v2/user/profile/avatar",
       { data }
     );
   }
 
-  static changePassword(data) {
+  static changePassword(data: ChangePasswordRequest) {
     return userAPIInstance.put(
       "https://ya-praktikum.tech/api/v2/user/password",
       { data }
     );
   }
 
-  static UserInfo(data) {
-    return userAPIInstance.get("https://ya-praktikum.tech/api/v2/auth/user", {
-      data,
-    });
+  static UserInfo() {
+    return userAPIInstance.get("https://ya-praktikum.tech/api/v2/auth/user");
   }
 
-  static userSearch(data) {
+  static userSearch(data: UserSearchRequest) {
     return userAPIInstance.post(
       "https://ya-praktikum.tech/api/v2/user/search",
       { data }

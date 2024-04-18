@@ -1,16 +1,22 @@
-function Button(props) {
-  //obrabotchick events click
-  if (props.click) {
-    const click = props.click;
-    click();
-  }
+interface PropsButton {
+  onClick: () => void;
 }
 
-function SearchUserItem(props) {
-  // same const id = props.id; const handler = props.handler;
-  const { id, handler } = props;
+function Button(props: PropsButton) {
+  //obrabotchick events click
+  const { onClick } = props;
+  onClick();
+}
 
-  const button = new Button({ id: id, click: handler });
+interface PropsSearchUserItem {
+  id: number;
+  handler333: () => void;
+}
+
+function SearchUserItem(props: PropsSearchUserItem) {
+  // same const id = props.id; const handler = props.handler;
+
+  const button = new Button({ onClick: props.handler333 });
 }
 
 function ModalDelete(props) {
@@ -20,7 +26,8 @@ function ModalDelete(props) {
     const handler = () => {
       console.log("zapros na backend ot polzovatela s id", user.id);
     };
-    new SearchUserItem({ id: user.id, handler: handler });
+
+    new SearchUserItem({ id: user.id, handler333: handler });
   });
 }
 //пропс-дриллинг - я из компонента родителя ModalDelete в ребенка SearchUserItem прокинул хендер который его переименовал и

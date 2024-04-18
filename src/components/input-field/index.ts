@@ -3,9 +3,15 @@ import "./input-field.css";
 
 import InputFieldRaw from "./input-field.hbs";
 import { Input } from "../input";
+import { ComponentsName } from "../../tools/validationRules";
 
 interface Props {
-  [key: string]: unknown;
+  type: string;
+  name: ComponentsName;
+  id: number | string;
+  onChange: (value?: boolean) => void;
+  title?: string;
+  className?: string;
 }
 
 export class InputField extends Block {

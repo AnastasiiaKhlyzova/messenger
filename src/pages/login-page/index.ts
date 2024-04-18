@@ -3,12 +3,11 @@ import Block from "../../tools/Block";
 import "./login-page.css";
 
 import LoginPageRaw from "./login-page.hbs";
-import { submit } from "../../tools/formUtils";
 import { ComponentsName } from "../../tools/validationRules";
 import router from "../../tools/router";
 import UserController from "../../controllers/user-controller";
-import store from "../../tools/Store";
 import AuthController from "../../controllers/auth-controller";
+import { SignInRequest } from "../../api/types";
 
 interface Props {
   [key: string]: unknown;
@@ -43,20 +42,21 @@ export class LoginPage extends Block {
         page: "login",
         className: "button-primary",
         type: "submit",
-        submit: e => {
-          const formData = new FormData(e.target.form);
+        onClick: e => {
+          const target = e!.target as HTMLInputElement;
+          const formData = new FormData(target.form!);
 
-          const userObj = {};
+          const userObj = {} as SignInRequest;
 
-          Array.from(formData.entries()).forEach(([key, value]) => {
-            userObj[key] = value;
-          });
+          Array.from(formData.entries()).forEach(
+            ([key, value]: [string, string]) => {
+              userObj[key] = value;
+            }
+          );
 
           AuthController.signinUser(userObj)
             .then(() => UserController.getUserInfo())
-            .then(userInfo => {
-              store.dispatch("user", userInfo);
-              console.log("user", userInfo);
+            .then(() => {
               router.go("/messenger");
             })
             .catch(error => {
@@ -71,23 +71,11 @@ export class LoginPage extends Block {
         page: "login",
         className: "button-secondary",
         id: "register-button",
-        navigate: () => {
+        onClick: () => {
           router.go("/sign-up");
         },
       }),
     });
-  }
-
-  override init() {
-    // this.children.input_login = new InputField({
-    //   title: "Login",
-    //   name: ComponentsName.LOGIN,
-    //   id: "login",
-    //   type: "text",
-    //   onChange: (value: boolean) => {
-    //     this.setProps({ isLoginError: value });
-    //   },
-    // });
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
