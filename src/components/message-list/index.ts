@@ -1,4 +1,5 @@
 import Block from "../../tools/Block";
+import isBlock from "../../tools/BlockGuard";
 import store, { Message, StoreEvents } from "../../tools/Store";
 import { ComponentsName } from "../../tools/validationRules";
 import { Button } from "../button";
@@ -31,13 +32,16 @@ export class MessageList extends Block {
 
   init() {
     const closeModal = () => {
-      this.children.modal.setProps({ isOpen: false });
-      console.log("srabotalo");
+      if (isBlock(this.children.modal)) {
+        this.children.modal.setProps({ isOpen: false });
+      }
     };
     const closeModalDeleteUser = () => {
-      this.children.modalUserDelete.setProps({ isOpen: false });
-      console.log("srabotalo");
+      if (isBlock(this.children.modalUserDelete)) {
+        this.children.modalUserDelete.setProps({ isOpen: false });
+      }
     };
+
     this.children.messageItems = [new MessageBlockEmpty({})];
     this.children.modal = new Modal({ closeModal: closeModal });
     this.children.modalUserDelete = new ModalUserDelete({
@@ -62,10 +66,14 @@ export class MessageList extends Block {
       });
 
       const openModal = () => {
-        this.children.modal.setProps({ isOpen: true });
+        if (isBlock(this.children.modal)) {
+          this.children.modal.setProps({ isOpen: true });
+        }
       };
       const openModalDeleteUser = () => {
-        this.children.modalUserDelete.setProps({ isOpen: true });
+        if (isBlock(this.children.modalUserDelete)) {
+          this.children.modalUserDelete.setProps({ isOpen: true });
+        }
       };
 
       this.children.button_primary = new Button({

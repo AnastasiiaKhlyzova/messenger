@@ -6,7 +6,6 @@ const authAPIInstance = new HTTP();
 
 export default class AuthAPI {
   static create(data: SignUpRequest) {
-    console.log("create", data);
     return authAPIInstance.post(
       "https://ya-praktikum.tech/api/v2/auth/signup",
       { data }

@@ -66,9 +66,6 @@ class Block<P extends Record<string, any> = any> {
     };
 
     Object.keys(events).forEach(eventName => {
-      // if (eventName === "keydown") {
-      //   document.addEventListener(eventName, events[eventName]);
-      // }
       this._element?.addEventListener(eventName, events[eventName]);
     });
   }

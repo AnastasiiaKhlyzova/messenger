@@ -8,6 +8,7 @@ import router from "../../tools/router";
 import UserController from "../../controllers/user-controller";
 import AuthController from "../../controllers/auth-controller";
 import { SignInRequest } from "../../api/types";
+import isBlock from "../../tools/BlockGuard";
 
 interface Props {
   [key: string]: unknown;
@@ -79,10 +80,16 @@ export class LoginPage extends Block {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    if (oldProps.isLoginError !== newProps.isLoginError) {
+    if (
+      oldProps.isLoginError !== newProps.isLoginError &&
+      isBlock(this.children.input_login)
+    ) {
       this.children.input_login.setProps({ isError: newProps.isLoginError });
     }
-    if (oldProps.isPasswordError !== newProps.isPasswordError) {
+    if (
+      oldProps.isPasswordError !== newProps.isPasswordError &&
+      isBlock(this.children.input_password)
+    ) {
       this.children.input_password.setProps({
         isError: newProps.isPasswordError,
       });

@@ -6,9 +6,21 @@ import "./settings-page.css";
 import SettingsPageRaw from "./settings-page.hbs";
 import UserController from "../../controllers/user-controller";
 import router from "../../tools/router";
-import store, { StoreEvents } from "../../tools/Store";
+import store, { StoreEvents, User } from "../../tools/Store";
 import AuthController from "../../controllers/auth-controller";
 import { UpdateProfileRequest } from "../../api/types";
+import isBlock from "../../tools/BlockGuard";
+
+interface Props {
+  isFirstNameError?: boolean;
+  isSecondNameError?: boolean;
+  user?: User;
+  isNewPasswordError?: boolean;
+  isPasswordError?: boolean;
+  isLoginError?: boolean;
+  isPhoneError?: boolean;
+  isEmailError?: boolean;
+}
 
 export class SettingsPage extends Block {
   htmlTemplate: string;
@@ -143,38 +155,58 @@ export class SettingsPage extends Block {
   }
 
   override componentDidUpdate(oldProps: Props, newProps: Props) {
-    if (oldProps.isFirstNameError !== newProps.isFirstNameError) {
+    if (
+      oldProps.isFirstNameError !== newProps.isFirstNameError &&
+      isBlock(this.children.input_first_name)
+    ) {
       this.children.input_first_name.setProps({
         isError: newProps.isFirstNameError,
       });
     }
-    if (oldProps.isSecondNameError !== newProps.isSecondNameError) {
+    if (
+      oldProps.isSecondNameError !== newProps.isSecondNameError &&
+      isBlock(this.children.input_second_name)
+    ) {
       this.children.input_second_name.setProps({
         isError: newProps.isSecondNameError,
       });
     }
-    if (oldProps.isEmailError !== newProps.isEmailError) {
+    if (
+      oldProps.isEmailError !== newProps.isEmailError &&
+      isBlock(this.children.input_email)
+    ) {
       this.children.input_email.setProps({ isError: newProps.isEmailError });
     }
-    if (oldProps.isPhoneError !== newProps.isPhoneError) {
+    if (
+      oldProps.isPhoneError !== newProps.isPhoneError &&
+      isBlock(this.children.input_phone)
+    ) {
       this.children.input_phone.setProps({ isError: newProps.isPhoneError });
     }
-    if (oldProps.isLoginError !== newProps.isLoginError) {
+    if (
+      oldProps.isLoginError !== newProps.isLoginError &&
+      isBlock(this.children.input_login)
+    ) {
       this.children.input_login.setProps({ isError: newProps.isLoginError });
     }
-    if (oldProps.isPasswordError !== newProps.isPasswordError) {
+    if (
+      oldProps.isPasswordError !== newProps.isPasswordError &&
+      isBlock(this.children.input_oldPassword)
+    ) {
       this.children.input_oldPassword.setProps({
         isError: newProps.isPasswordError,
       });
     }
-    if (oldProps.isNewPasswordError !== newProps.isNewPasswordError) {
+    if (
+      oldProps.isNewPasswordError !== newProps.isNewPasswordError &&
+      isBlock(this.children.input_newPassword)
+    ) {
       this.children.input_newPassword.setProps({
         isError: newProps.isNewPasswordError,
       });
     }
-    if (newProps.user) {
+    if (newProps.user && isBlock(this.children.avatar)) {
       this.children.avatar.setProps({ url: newProps.user.avatar });
-      console.log("eee", newProps.user);
     }
 
     return true;

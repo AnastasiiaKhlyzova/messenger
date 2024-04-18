@@ -8,6 +8,7 @@ import UserController from "../../controllers/user-controller";
 import router from "../../tools/router";
 import AuthController from "../../controllers/auth-controller";
 import { SignUpRequest } from "../../api/types";
+import isBlock from "../../tools/BlockGuard";
 
 interface Props {
   [key: string]: unknown;
@@ -108,26 +109,44 @@ export class RegistrationPage extends Block {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props) {
-    if (oldProps.isFirstNameError !== newProps.isFirstNameError) {
+    if (
+      oldProps.isFirstNameError !== newProps.isFirstNameError &&
+      isBlock(this.children.input_first_name)
+    ) {
       this.children.input_first_name.setProps({
         isError: newProps.isFirstNameError,
       });
     }
-    if (oldProps.isSecondNameError !== newProps.isSecondNameError) {
+    if (
+      oldProps.isSecondNameError !== newProps.isSecondNameError &&
+      isBlock(this.children.input_second_name)
+    ) {
       this.children.input_second_name.setProps({
         isError: newProps.isSecondNameError,
       });
     }
-    if (oldProps.isEmailError !== newProps.isEmailError) {
+    if (
+      oldProps.isEmailError !== newProps.isEmailError &&
+      isBlock(this.children.input_email)
+    ) {
       this.children.input_email.setProps({ isError: newProps.isEmailError });
     }
-    if (oldProps.isPhoneError !== newProps.isPhoneError) {
+    if (
+      oldProps.isPhoneError !== newProps.isPhoneError &&
+      isBlock(this.children.input_phone)
+    ) {
       this.children.input_phone.setProps({ isError: newProps.isPhoneError });
     }
-    if (oldProps.isLoginError !== newProps.isLoginError) {
+    if (
+      oldProps.isLoginError !== newProps.isLoginError &&
+      isBlock(this.children.input_login)
+    ) {
       this.children.input_login.setProps({ isError: newProps.isLoginError });
     }
-    if (oldProps.isPasswordError !== newProps.isPasswordError) {
+    if (
+      oldProps.isPasswordError !== newProps.isPasswordError &&
+      isBlock(this.children.input_password)
+    ) {
       this.children.input_password.setProps({
         isError: newProps.isPasswordError,
       });

@@ -10,6 +10,7 @@ import MyWebSocket from "../../tools/webSocket";
 import { Button } from "../button";
 import { ModalCreateChat } from "../modalCreateChat";
 import ChatController from "../../controllers/chat-controller";
+import isBlock from "../../tools/BlockGuard";
 
 interface Props {
   [key: string]: unknown;
@@ -29,10 +30,14 @@ export class ChatSidebar extends Block {
   }
   override init() {
     const openCreateChatModal = () => {
-      this.children.modalCreatechat.setProps({ isOpen: true });
+      if (isBlock(this.children.modalCreatechat)) {
+        this.children.modalCreatechat.setProps({ isOpen: true });
+      }
     };
     const closeCreateChatModal = () => {
-      this.children.modalCreatechat.setProps({ isOpen: false });
+      if (isBlock(this.children.modalCreatechat)) {
+        this.children.modalCreatechat.setProps({ isOpen: false });
+      }
     };
 
     this.children.modalCreatechat = new ModalCreateChat({
@@ -67,7 +72,6 @@ export class ChatSidebar extends Block {
               await UserController.getUserInfo();
 
               const currentStore = store.getState();
-              console.log("user id", currentStore.user.id);
               const socket = new MyWebSocket(
                 `wss://ya-praktikum.tech/ws/chats/${currentStore.user.id}/${currentStore.currentChat}/${currentStore.currentChatToken}`
               );
@@ -92,7 +96,6 @@ export class ChatSidebar extends Block {
               socket.recieveMessages();
 
               const currentState = store.getState();
-              console.log("nnn", currentState);
               ChatController.getUsersInChat(currentState.currentChat!);
             },
           })

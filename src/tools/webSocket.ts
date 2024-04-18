@@ -32,7 +32,7 @@ export default class MyWebSocket extends EventBus {
     });
   }
 
-  public sendMessage(message) {
+  public sendMessage(message: string) {
     this.socket.send(
       JSON.stringify({
         content: message,

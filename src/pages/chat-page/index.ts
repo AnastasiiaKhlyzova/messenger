@@ -7,15 +7,10 @@ import UserController from "../../controllers/user-controller";
 import store, { StoreEvents, User } from "../../tools/Store";
 import router from "../../tools/router";
 import { MessageBlock } from "../../components/messageBlock";
+import isBlock from "../../tools/BlockGuard";
 
 interface Props {
   [key: string]: unknown;
-}
-
-interface ChatItem {
-  title: string;
-  last_message: Record<string, string>;
-  unread_count: number;
 }
 
 export class ChatPage extends Block {
@@ -41,7 +36,7 @@ export class ChatPage extends Block {
 
   init() {}
   override componentDidUpdate(oldProps: Props, newProps: { user: User }) {
-    if (newProps.user) {
+    if (newProps.user && isBlock(this.children.profile)) {
       this.children.profile.setProps({ url: newProps.user.avatar });
     }
     return true;

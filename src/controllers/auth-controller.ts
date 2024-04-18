@@ -12,6 +12,6 @@ export default class AuthController {
   }
 
   public static signoutUser() {
-    AuthAPI.signout().then(data => console.log(data));
+    AuthAPI.signout();
   }
 }

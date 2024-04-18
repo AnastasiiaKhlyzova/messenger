@@ -95,7 +95,6 @@ export const withStore =
         super({ ...props, ...mapStateToProps(store.getState()) });
 
         store.on(StoreEvents.Updated, () => {
-          console.log("STORE_ON");
           const newState = mapStateToProps(store.getState());
           if (!isEqual(oldState, newState)) {
             this.setProps({ ...mapStateToProps(store.getState()) });
