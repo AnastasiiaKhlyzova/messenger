@@ -1,26 +1,35 @@
-import Block from '../../tools/Block';
-import './input-message.css';
+import Block from "../../tools/Block";
+import store from "../../tools/Store";
+import "./input-message.css";
 
-import InputMessageRaw from './input-message.hbs?raw';
+import InputMessageRaw from "./input-message.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 export class InputMessage extends Block {
   constructor(props: Props) {
     super({
       ...props,
       events: {
+        submit: e => {
+          e.preventDefault();
+          const currentStore = store.getState();
+          const currentSocket = currentStore.currentSocket;
 
-        submit: () => console.log('submit message'),
+          console.log("tut");
 
+          const inputElement = e.target.elements["message"];
+          const message = inputElement.value;
+          console.log("tuta", message);
+          currentSocket?.sendMessage(message);
+        },
       },
-
     });
   }
 
-  render() {
-    return InputMessageRaw;
+  override render() {
+    return this.compile(InputMessageRaw, this.props);
   }
   // for future
   // validate(e) {

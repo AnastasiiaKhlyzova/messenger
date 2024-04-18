@@ -1,11 +1,11 @@
-import Block from '../../tools/Block';
-import './button.css';
+import Block from "../../tools/Block";
+import "./button.css";
 
-import ButtonRaw from './button.hbs?raw';
+import ButtonRaw from "./button.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 export class Button extends Block {
   constructor(props: Props) {
     super({
@@ -42,13 +42,24 @@ export class Button extends Block {
             const getToken = props.getToken as () => void;
             getToken();
           }
+          if (props.openModal) {
+            const openModal = props.openModal as () => void;
+            openModal();
+          }
+          if (props.closeModal) {
+            const closeModal = props.closeModal as () => void;
+            closeModal();
+          }
+          if (props.click) {
+            const click = props.click as () => void;
+            click(e);
+          }
         },
       },
-
     });
   }
 
-  render() {
-    return ButtonRaw;
+  override render() {
+    return this.compile(ButtonRaw, this.props);
   }
 }

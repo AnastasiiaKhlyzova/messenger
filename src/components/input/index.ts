@@ -1,12 +1,12 @@
-import InputRaw from './input.hbs?raw';
-import Block from '../../tools/Block';
-import { validate } from '../../tools/validate';
-import { ComponentsName } from '../../tools/validationRules';
-import './input.css';
+import InputRaw from "./input.hbs";
+import Block from "../../tools/Block";
+import { validate } from "../../tools/validate";
+import { ComponentsName } from "../../tools/validationRules";
+import "./input.css";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 
 export class Input extends Block {
   constructor(props: Props) {
@@ -26,13 +26,11 @@ export class Input extends Block {
             onChange(true);
           }
         },
-
       },
-
     });
   }
 
-  render() {
-    return InputRaw;
+  override render() {
+    return this.compile(InputRaw, this.props);
   }
 }

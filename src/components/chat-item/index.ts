@@ -1,29 +1,28 @@
-import Block from '../../tools/Block';
-import './chat-item.css';
+import Block from "../../tools/Block";
+import "./chat-item.css";
 
-import ChatItemRaw from './chat-item.hbs?raw';
+import ChatItemRaw from "./chat-item.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 
 export class ChatItem extends Block {
   constructor(props: Props) {
     super({
       ...props,
+      events: {
+        click: () => {
+          if (props.click) {
+            const click = props.click as () => void;
+            click();
+          }
+        },
+      },
     });
   }
 
-  render() {
-    return ChatItemRaw;
-  }
-
-  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    console.log('hello1111', oldProps, newProps);
-
-    if (oldProps.chats !== newProps.chats) {
-      this.setProps({ chats: newProps.chats });
-    }
-    return true;
+  override render() {
+    return this.compile(ChatItemRaw, this.props);
   }
 }

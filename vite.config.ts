@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import vitePluginHandlebarsPrecompile from './vite-plugin-handlebars-precompile';
 
 export default defineConfig({
   root: resolve(__dirname, 'src'),
@@ -18,5 +19,6 @@ export default defineConfig({
         { src: resolve(__dirname, 'src/assets/images/*'), dest: resolve(__dirname, 'dist/assets/images') },
       ],
     }),
+    vitePluginHandlebarsPrecompile(),
   ],
 });

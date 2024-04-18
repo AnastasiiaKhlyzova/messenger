@@ -1,7 +1,7 @@
-import * as Pages from './pages';
-import Block from './tools/Block';
-import Router from './tools/Router';
-import { connect } from './tools/Hoc';
+import * as Pages from "./pages";
+import Block from "./tools/Block";
+import { withStore } from "./tools/Store";
+import router from "./tools/router";
 
 interface PageStructure {
   [key: string]: [typeof Block];
@@ -44,15 +44,16 @@ window.navigate = navigate;
 //   });
 // });
 
+const connect = withStore(state => ({ ...state }));
+
 const connectedLoginPage = connect(Pages.LoginPage);
 const connectedRegistrationPage = connect(Pages.RegistrationPage);
 const connectedSettingsPage = connect(Pages.SettingsPage);
 const connectedChatPage = connect(Pages.ChatPage);
 
-const router = new Router('app');
 router
-  .use('/', connectedLoginPage)
-  .use('/sign-up', connectedRegistrationPage)
-  .use('/settings', connectedSettingsPage)
-  .use('/messenger', connectedChatPage)
+  .use("/", connectedLoginPage)
+  .use("/sign-up", connectedRegistrationPage)
+  .use("/settings", connectedSettingsPage)
+  .use("/messenger", connectedChatPage)
   .start();

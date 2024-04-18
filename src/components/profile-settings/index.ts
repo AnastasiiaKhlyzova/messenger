@@ -1,11 +1,11 @@
-import Block from '../../tools/Block';
-import './profile-settings.css';
+import Block from "../../tools/Block";
+import "./profile-settings.css";
 
-import ProfileSettingsRaw from './profile-settings.hbs?raw';
+import ProfileSettingsRaw from "./profile-settings.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 export class ProfileSettings extends Block {
   constructor(props: Props) {
     super({
@@ -23,7 +23,7 @@ export class ProfileSettings extends Block {
     });
   }
 
-  render() {
-    return ProfileSettingsRaw;
+  override render() {
+    return this.compile(ProfileSettingsRaw, this.props);
   }
 }

@@ -1,0 +1,24 @@
+{{#if isOpen}}
+<div>
+<div class="overlay"></div>
+
+<div class="wrapper" id="modalBackdrop">
+  <div class="modal" id="modal">
+ 
+    <span class="modal-close" id="closeButton">&times;</span>
+     {{{ button_close }}}
+    <h2>Заголовок модального окна</h2>
+    <p>Содержимое модального окна. Здесь может быть текст, изображения, формы и т.д.</p>
+   <form>
+    {{{ button_create }}}
+    {{{ input_title_chat }}}
+    
+    </form>
+    
+  </div>
+</div>
+</div>
+
+{{else}}
+  {{{fragment}}}
+{{/if}}

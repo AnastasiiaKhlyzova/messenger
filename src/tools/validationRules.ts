@@ -1,13 +1,13 @@
 // правила валидации
 // eslint-disable-next-line no-shadow
 export enum ComponentsName {
-    FIRST_NAME = 'first_name',
-    SECOND_NAME = 'second_name',
-    LOGIN = 'login',
-    EMAIL = 'email',
-    PASSWORD = 'password',
-    PHONE = 'phone',
-    MESSAGE = 'message',
+  FIRST_NAME = "first_name",
+  SECOND_NAME = "second_name",
+  LOGIN = "login",
+  EMAIL = "email",
+  PASSWORD = "password",
+  PHONE = "phone",
+  MESSAGE = "message",
 }
 
 export const validationRules = {
@@ -17,7 +17,7 @@ export const validationRules = {
   // [ComponentsName.EMAIL]: /^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
   // [ComponentsName.PASSWORD]: /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,40}$/,
   // [ComponentsName.PHONE]: /^\+?\d{10,15}$/,
-  [ComponentsName.MESSAGE]: /\S+/,
+  // [ComponentsName.MESSAGE]: /\S+/,
   [ComponentsName.FIRST_NAME]: /\S+/,
   [ComponentsName.SECOND_NAME]: /\S+/,
   [ComponentsName.LOGIN]: /\S+/,

@@ -1,126 +1,132 @@
 import {
-  ProfileSettings, InputSearch, ChatSidebar, MessageUser, MessageList, InputMessage,
+  ProfileSettings,
+  InputSearch,
+  ChatSidebar,
+  MessageUser,
+  MessageList,
+  InputMessage,
   Button,
   ChatItem,
-} from '../../components';
-import Block from '../../tools/Block';
-import { submit } from '../../tools/formUtils';
-import { ComponentsName } from '../../tools/validationRules';
-import './chat-page.css';
-import Router from '../../tools/Router';
-import ChatPageRaw from './chat-page.hbs?raw';
-import UserController from '../../controllers/user-controller';
-import store from '../../tools/Store';
+} from "../../components";
+import Block from "../../tools/Block";
+import { submit } from "../../tools/formUtils";
+import { ComponentsName } from "../../tools/validationRules";
+import "./chat-page.css";
+import ChatPageRaw from "./chat-page.hbs";
+import UserController from "../../controllers/user-controller";
+import store, { StoreEvents } from "../../tools/Store";
+import router from "../../tools/router";
+import { MessageBlock } from "../../components/messageBlock";
+import { MessageBlockEmpty } from "../../components/messageListEmpty";
+import ChatController from "../../controllers/chat-controller";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 
- interface ChatItem {
+interface ChatItem {
   title: string;
-  last_message: Record<string, string>
+  last_message: Record<string, string>;
   unread_count: number;
- }
+}
 
 export class ChatPage extends Block {
-  constructor(props: Props) {
+  constructor() {
     super({
-      ...props,
-      children: {
-
-      },
+      children: {},
       profile: [
         new ProfileSettings({
-          className: 'profile-settings',
+          className: "profile-settings",
           navigate: () => {
-            const router = new Router('app');
-            router.go('/settings');
+            router.go("/settings");
           },
         }),
       ],
       inputsearch: [
         new InputSearch({
-          className: 'search-container',
-        })],
-      sidebar: new ChatSidebar({
-        // eslint-disable-next-line max-len
-        chatItems: (store.getState().chats as Array<ChatItem>).map((chat) => new ChatItem({ name: chat.title, lastMessage: chat.last_message?.content, unreadCount: chat.unread_count })),
-        chats: store.getState().chats,
-      }),
+          className: "search-container",
+        }),
+      ],
+      sidebar: new ChatSidebar({}),
+      messageBlock: new MessageBlock({}),
       user: [
         new MessageUser({
-          userName: 'Петя',
-        })],
-      list: [
-        new MessageList({})],
-      inputmessage: [
-        new InputMessage({ type: 'submit', submit, name: ComponentsName.MESSAGE })],
-      button_primary:
-        new Button({
-          text: 'chatbutton',
-          page: 'login',
-          className: 'button-primary',
-          type: 'button',
-          createChat: (e) => {
-            // UserController.createChats({ title: 'namechat' });
-          },
-          addUser: (e) => {
-            UserController.addUsersToChat({
-              users: [
-                83,
-              ],
-              chatId: 703,
-            });
-          },
-          id: 'chat-button',
+          userName: "Петя",
         }),
-      button_info:
-        new Button({
-          text: 'info',
-          page: 'login',
-          className: 'button-primary',
-          type: 'button',
-          getInfo: () => {
-            UserController.getUserInfo();
-          },
+      ],
+      // list: [new MessageList({})],
+      // inputmessage: [
+      //   new InputMessage({
+      //     type: "submit",
+      //     submit,
+      //     name: ComponentsName.MESSAGE,
+      //   }),
+      // ],
+      button_primary: new Button({
+        text: "chatbutton",
+        page: "login",
+        className: "button-primary",
+        type: "button",
+        createChat: e => {
+          // ChatController.createChats({ title: 'namechat' });
+        },
+        addUser: e => {
+          ChatController.addUsersToChat({
+            users: [83],
+            chatId: 703,
+          });
+        },
+        id: "chat-button",
+      }),
+      button_info: new Button({
+        text: "info",
+        page: "login",
+        className: "button-primary",
+        type: "button",
+        getInfo: () => {
+          UserController.getUserInfo();
+        },
 
-          id: 'chat-button',
-        }),
-      button_token:
-        new Button({
-          text: 'token',
-          page: 'login',
-          className: 'button-primary',
-          type: 'button',
-          getToken: () => {
-            UserController.ChatTokenId(703);
-          },
+        id: "chat-button",
+      }),
+      button_token: new Button({
+        text: "token",
+        page: "login",
+        className: "button-primary",
+        type: "button",
+        getToken: () => {
+          ChatController.ChatTokenId(703);
+        },
 
-          id: 'chat-button',
-        }),
-
+        id: "chat-button",
+      }),
+    });
+    store.on(StoreEvents.Updated, () => {
+      this.setProps(store.getState());
     });
   }
 
-  override render() {
-    return ChatPageRaw;
+  init() {
+    // if (this.props.currentChat) {
+    //   this.children.messageBlock = new MessageBlock({});
+    // } else {
+    //   this.children.messageBlock = new MessageBlockEmpty({});
+    // }
+    // this.children.sidebar = new ChatSidebar({ chats: store.getState().chats });
+    // this.children.inputsearch = new InputSearch({});
+    // this.children.profile = new ProfileSettings({});
+    // this.children.Messenger = new Messenger();
   }
-
-  async componentDidMount() {
-    const chats = await UserController.getUsersChats();
-    store.dispatch({
-      type: 'SET_CHATS',
-      chats,
-    });
-    // eslint-disable-next-line max-len
-    this.children.sidebar.setProps({ chatItems: (chats as Array<ChatItem>).map((chat) => new ChatItem({ name: chat.title, lastMessage: chat.last_message?.content, unreadCount: chat.unread_count })) });
-  }
-
-  componentDidUpdate(oldProps, newProps) {
-    if (oldProps.chatItems !== newProps.chatItems) {
-      console.log('zashel');
-      this.children.sidebar.setProps({ chatItems: newProps.chatItems });
-    }
+  componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    // if (newProps.currentChat) {
+    //   this.children.messageBlock = new MessageBlock({});
+    // } else {
+    //   this.children.messageBlock = new MessageBlockEmpty({});
+    // }
     return true;
+  }
+
+  render() {
+    return this.compile(ChatPageRaw, this.props);
   }
 }
