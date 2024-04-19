@@ -33,7 +33,7 @@ export class ModalUserDelete extends Block {
   }
 
   componentDidUpdate(
-    oldProps: Props,
+    _oldProps: Props,
     newProps: { usersInCurrentChat: User[] }
   ): boolean {
     if (newProps.usersInCurrentChat) {

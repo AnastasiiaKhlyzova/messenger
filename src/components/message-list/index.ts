@@ -53,7 +53,7 @@ export class MessageList extends Block {
   }
 
   componentDidUpdate(
-    oldProps: Props,
+    _oldProps: Props,
     newProps: { messages: Message[] }
   ): boolean {
     if (newProps.messages && newProps.messages.length >= 0) {

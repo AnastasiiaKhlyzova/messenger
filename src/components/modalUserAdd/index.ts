@@ -50,7 +50,7 @@ export class Modal extends Block {
   }
 
   componentDidUpdate(
-    oldProps: Props,
+    _oldProps: Props,
     newProps: { usersSearchResult: SearchAddUser[] }
   ): boolean {
     if (newProps.usersSearchResult) {

@@ -1,4 +1,3 @@
-import { StringDecoder } from "string_decoder";
 import Block from "./Block";
 import EventBus from "./EventBus";
 import { isEqual, set } from "./helpers";

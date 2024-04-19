@@ -1,4 +1,4 @@
-import { ProfileSettings, ChatSidebar, Button } from "../../components";
+import { ProfileSettings, ChatSidebar } from "../../components";
 import Block from "../../tools/Block";
 
 import "./chat-page.css";
@@ -35,7 +35,7 @@ export class ChatPage extends Block {
   }
 
   init() {}
-  override componentDidUpdate(oldProps: Props, newProps: { user?: User }) {
+  override componentDidUpdate(_oldProps: Props, newProps: { user?: User }) {
     if (newProps.user && isBlock(this.children.profile)) {
       this.children.profile.setProps({ url: newProps.user.avatar });
     }

@@ -55,7 +55,7 @@ export class ChatSidebar extends Block {
   }
 
   componentDidUpdate(
-    oldProps: Props,
+    _oldProps: Props,
     newProps: { chats: ChatInfo[] }
   ): boolean {
     if (newProps.chats) {

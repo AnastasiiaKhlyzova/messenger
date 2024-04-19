@@ -1,4 +1,3 @@
-import store from "../tools/Store";
 import AuthAPI from "../api/auth-api";
 import { SignInRequest, SignUpRequest } from "../api/types";
 

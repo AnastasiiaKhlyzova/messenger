@@ -14,11 +14,14 @@ export class InputMessage extends Block {
       events: {
         submit: (e: SubmitEvent) => {
           e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const inputElement = form.elements.namedItem(
+            "message"
+          ) as HTMLInputElement;
+          const message = inputElement.value;
+
           const currentStore = store.getState();
           const currentSocket = currentStore.currentSocket;
-
-          const inputElement = e.target?.elements["message"];
-          const message = inputElement.value;
 
           currentSocket?.sendMessage(message);
         },
