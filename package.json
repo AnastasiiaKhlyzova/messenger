@@ -11,7 +11,7 @@
     "lint": "eslint ./src/**/*.{js,jsx,ts,tsx}",
     "lint:fix": "eslint ./src/**/*.{js,jsx,ts,tsx} --fix",
     "lint:css": "stylelint '**/*.css'",
-    "lint:css:fix": "stylelint '**/*.css' --fix",
+    "lint:css:fix": "stylelint '**/*.css' --fix && find . -type f -name '*.css' -exec awk 'END{if(substr($0,length) != \" \") print \" \" >> FILENAME}' {} \\;",
     "type-check": "tsc --noEmit",
     "lint-all": "npm run lint && npm run lint:css && npm run type-check"
   },
