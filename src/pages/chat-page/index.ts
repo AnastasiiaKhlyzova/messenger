@@ -35,7 +35,7 @@ export class ChatPage extends Block {
   }
 
   init() {}
-  override componentDidUpdate(oldProps: Props, newProps: { user: User }) {
+  override componentDidUpdate(oldProps: Props, newProps: { user?: User }) {
     if (newProps.user && isBlock(this.children.profile)) {
       this.children.profile.setProps({ url: newProps.user.avatar });
     }

@@ -1,7 +1,7 @@
-import Block from '../../tools/Block';
-import './404error.css';
+import Block from "../../tools/Block";
+import "./404error.css";
 
-import Error404PageRaw from './404error.hbs?raw';
+import Error404PageRaw from "./404error.hbs";
 
 export class Error404Page extends Block {
   constructor() {
@@ -9,6 +9,6 @@ export class Error404Page extends Block {
   }
 
   override render() {
-    return Error404PageRaw;
+    return this.compile(Error404PageRaw, this.props);
   }
 }

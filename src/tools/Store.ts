@@ -83,6 +83,9 @@ export class Store extends EventBus {
     set(this.state, path, value);
     this.emit(StoreEvents.Updated);
   }
+  public clearSearchResults() {
+    this.dispatch("usersSearchResult", []);
+  }
 }
 
 const store = new Store();

@@ -10,6 +10,7 @@ import store, { StoreEvents, User } from "../../tools/Store";
 import AuthController from "../../controllers/auth-controller";
 import { UpdateProfileRequest } from "../../api/types";
 import isBlock from "../../tools/BlockGuard";
+import { filterEmptyStrings } from "../../tools/helpers";
 
 interface Props {
   isFirstNameError?: boolean;
@@ -23,8 +24,6 @@ interface Props {
 }
 
 export class SettingsPage extends Block {
-  htmlTemplate: string;
-
   constructor() {
     super({
       avatar: new Avatar({
@@ -104,7 +103,7 @@ export class SettingsPage extends Block {
       }),
       input_newPassword: new InputField({
         title: "New password",
-        name: ComponentsName.OLD_PASSWORD,
+        name: ComponentsName.NEW_PASSWORD,
         id: "newPassword",
         type: "password",
         onChange: (value: boolean) => {
@@ -117,20 +116,69 @@ export class SettingsPage extends Block {
         page: "chat",
         className: "button-primary",
         type: "submit",
+        // onClick: e => {
+        //   const target = e!.target as HTMLInputElement;
+        //   const formData = new FormData(target.form!);
+
+        //   const userObj = {} as UpdateProfileRequest;
+
+        //   Array.from(formData.entries()).forEach(
+        //     ([key, value]: [string, string]) => {
+        //       userObj[key] = value;
+        //     }
+        //   );
+        //   UserController.updateUserProfile(userObj).then(() =>
+        //     router.go("/messenger")
+        //   );
+        //   UserController.changeUserPassword(data);
+        // },
         onClick: e => {
           const target = e!.target as HTMLInputElement;
           const formData = new FormData(target.form!);
 
-          const userObj = {} as UpdateProfileRequest;
+          const userObj = {
+            [ComponentsName.DISPLAY_NAME]: "",
+            [ComponentsName.EMAIL]: "",
+            [ComponentsName.FIRST_NAME]: "",
+            [ComponentsName.LOGIN]: "",
+            [ComponentsName.PHONE]: "",
+            [ComponentsName.SECOND_NAME]: "",
+          } as UpdateProfileRequest;
+          const passwordObj = {
+            [ComponentsName.NEW_PASSWORD]: "",
+            [ComponentsName.OLD_PASSWORD]: "",
+          };
 
           Array.from(formData.entries()).forEach(
             ([key, value]: [string, string]) => {
-              userObj[key] = value;
+              if (
+                key === ComponentsName.OLD_PASSWORD ||
+                key === ComponentsName.NEW_PASSWORD
+              ) {
+                passwordObj[key] = value;
+              }
+              if (key in userObj) {
+                userObj[key] = value;
+              }
             }
           );
-          UserController.updateUserProfile(userObj).then(() =>
-            router.go("/messenger")
-          );
+
+          if (passwordObj.old_password && passwordObj.new_password) {
+            const request = {
+              oldPassword: passwordObj.old_password,
+              newPassword: passwordObj.new_password,
+            };
+            UserController.changeUserPassword(request).then(() =>
+              router.go("/messenger")
+            );
+          }
+
+          if (Object.values(userObj).some(value => value)) {
+            const filterObj = filterEmptyStrings(userObj);
+            UserController.updateUserProfile(filterObj).then(() =>
+              router.go("/messenger")
+            );
+          }
         },
       }),
       button_signout: new Button({

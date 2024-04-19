@@ -1,6 +1,7 @@
 import Block from "../../tools/Block";
 import isBlock from "../../tools/BlockGuard";
 import store, { Message, StoreEvents } from "../../tools/Store";
+import formatChatTimestamp from "../../tools/formatChatTimestamp";
 import { ComponentsName } from "../../tools/validationRules";
 import { Button } from "../button";
 import { InputMessage } from "../input-message";
@@ -35,11 +36,13 @@ export class MessageList extends Block {
       if (isBlock(this.children.modal)) {
         this.children.modal.setProps({ isOpen: false });
       }
+      store.clearSearchResults();
     };
     const closeModalDeleteUser = () => {
       if (isBlock(this.children.modalUserDelete)) {
         this.children.modalUserDelete.setProps({ isOpen: false });
       }
+      store.clearSearchResults();
     };
 
     this.children.messageItems = [new MessageBlockEmpty({})];
@@ -60,7 +63,7 @@ export class MessageList extends Block {
           currentStore.user.id == message.user_id;
         return new MessageItem({
           text: message.content,
-          timestamp: message.time,
+          timestamp: formatChatTimestamp(message.time),
           isUserMessage: isMessageFromCurrentUser,
         });
       });

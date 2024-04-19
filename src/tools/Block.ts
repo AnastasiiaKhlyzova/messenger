@@ -1,6 +1,5 @@
 import { v4 as makeUUID } from "uuid";
 import EventBus from "./EventBus";
-// import Handlebars from "handlebars";
 
 class Block<P extends Record<string, any> = any> {
   static EVENTS = {

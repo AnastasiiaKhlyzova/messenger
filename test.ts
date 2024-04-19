@@ -3,7 +3,6 @@ interface PropsButton {
 }
 
 function Button(props: PropsButton) {
-  //obrabotchick events click
   const { onClick } = props;
   onClick();
 }
@@ -14,8 +13,6 @@ interface PropsSearchUserItem {
 }
 
 function SearchUserItem(props: PropsSearchUserItem) {
-  // same const id = props.id; const handler = props.handler;
-
   const button = new Button({ onClick: props.handler333 });
 }
 
@@ -30,5 +27,3 @@ function ModalDelete(props) {
     new SearchUserItem({ id: user.id, handler333: handler });
   });
 }
-//пропс-дриллинг - я из компонента родителя ModalDelete в ребенка SearchUserItem прокинул хендер который его переименовал и
-//прокинул  в своего ребенка Button

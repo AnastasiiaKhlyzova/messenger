@@ -1,7 +1,7 @@
-import Block from '../../tools/Block';
-import './500error.css';
+import Block from "../../tools/Block";
+import "./500error.css";
 
-import Error500PageRaw from './500error.hbs?raw';
+import Error500PageRaw from "./500error.hbs";
 
 export class Error500Page extends Block {
   constructor() {
@@ -9,6 +9,6 @@ export class Error500Page extends Block {
   }
 
   override render() {
-    return Error500PageRaw;
+    return this.compile(Error500PageRaw, this.props);
   }
 }

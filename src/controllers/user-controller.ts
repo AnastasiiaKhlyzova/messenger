@@ -16,7 +16,7 @@ export default class UserController {
   }
 
   public static changeUserPassword(data: ChangePasswordRequest) {
-    UserAPI.changePassword(data);
+    return UserAPI.changePassword(data);
   }
 
   public static getUserInfo() {

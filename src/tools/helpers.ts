@@ -1,3 +1,5 @@
+import { UpdateProfileRequest } from "../api/types";
+
 export type Indexed<T = any> = {
   [key in string]: T;
 };
@@ -80,3 +82,13 @@ export const merge = (lhs: Indexed, rhs: Indexed): Indexed => {
 
   return lhs;
 };
+
+export function filterEmptyStrings(data: UpdateProfileRequest) {
+  const filteredData = {} as UpdateProfileRequest;
+  for (const key in data) {
+    if (data[key] && data[key]!.trim() !== "") {
+      filteredData[key] = data[key];
+    }
+  }
+  return filteredData;
+}
