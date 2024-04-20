@@ -34,7 +34,10 @@ export class InputField extends Block {
     return this.compile(InputFieldRaw, this.props);
   }
 
-  override componentDidUpdate(_oldProps: any, newProps: any): boolean {
+  override componentDidUpdate(
+    _oldProps: unknown,
+    newProps: { value: string }
+  ): boolean {
     if (newProps.value && isBlock(this.children.input)) {
       this.children.input.setProps({ value: newProps.value });
     }
