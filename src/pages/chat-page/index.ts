@@ -29,7 +29,11 @@ export class ChatPage extends Block {
       sidebar: new ChatSidebar({}),
       messageBlock: new MessageBlock({}),
     });
-    UserController.getUserInfo();
+    try {
+      UserController.getUserInfo();
+    } catch (error) {
+      alert(`Ошибка запроса: ${error}`);
+    }
 
     store.on(StoreEvents.Updated, () => {
       this.setProps(store.getState());

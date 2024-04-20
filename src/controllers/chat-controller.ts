@@ -13,7 +13,7 @@ export default class ChatController {
   public static addUsersToChat(data: AddUsersRequest) {
     return ChatAPI.addUsers(data);
   }
-  public static ChatTokenId(id: number) {
+  public static chatTokenId(id: number) {
     return ChatAPI.getChatToken(id).then((token: XMLHttpRequest) => {
       return store.dispatch(
         "currentChatToken",

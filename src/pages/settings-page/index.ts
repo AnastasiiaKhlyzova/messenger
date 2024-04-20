@@ -164,9 +164,15 @@ export class SettingsPage extends Block {
 
           if (Object.values(userObj).some(value => value)) {
             const filterObj = filterEmptyStrings(userObj);
-            UserController.updateUserProfile(filterObj).then(() =>
-              router.go("/messenger")
-            );
+            try {
+              UserController.updateUserProfile(filterObj)
+                .then(() => router.go("/messenger"))
+                .catch(error => {
+                  alert(`Ошибка при обновлении профиля пользователя: ${error}`);
+                });
+            } catch (error) {
+              alert(`Ошибка запроса: ${error}`);
+            }
           }
         },
       }),
@@ -176,7 +182,11 @@ export class SettingsPage extends Block {
         className: "button-on-page",
         type: "button",
         onClick: () => {
-          AuthController.signoutUser();
+          try {
+            AuthController.signoutUser();
+          } catch (error) {
+            alert(`Ошибка запроса: ${error}`);
+          }
           router.go("/");
         },
       }),

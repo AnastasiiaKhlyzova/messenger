@@ -28,7 +28,12 @@ export default class MyWebSocket extends EventBus {
   recieveMessages() {
     this.socket.addEventListener("message", event => {
       console.log("Получены данные", event.data);
-      this.emit("messages", JSON.parse(event.data));
+      try {
+        const data = JSON.parse(event.data);
+        this.emit("messages", data);
+      } catch (error) {
+        alert(`Ошибка запроса: ${error}`);
+      }
     });
   }
 

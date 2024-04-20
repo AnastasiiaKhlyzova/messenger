@@ -22,7 +22,11 @@ export class ChatSidebar extends Block {
       ...props,
     });
 
-    ChatController.getUsersChats();
+    try {
+      ChatController.getUsersChats();
+    } catch (error) {
+      alert(`Ошибка запроса: ${error}`);
+    }
 
     store.on(StoreEvents.Updated, () => {
       this.setProps(store.getState());
@@ -67,9 +71,13 @@ export class ChatSidebar extends Block {
             unreadCount: chat.unread_count,
             click: async () => {
               store.dispatch("currentChat", chat.id);
-              await ChatController.ChatTokenId(chat.id);
+              try {
+                await ChatController.chatTokenId(chat.id);
 
-              await UserController.getUserInfo();
+                await UserController.getUserInfo();
+              } catch (error) {
+                alert(`Ошибка запроса: ${error}`);
+              }
 
               const currentStore = store.getState();
               const socket = new MyWebSocket(
@@ -96,7 +104,11 @@ export class ChatSidebar extends Block {
               socket.recieveMessages();
 
               const currentState = store.getState();
-              ChatController.getUsersInChat(currentState.currentChat!);
+              try {
+                ChatController.getUsersInChat(currentState.currentChat!);
+              } catch (error) {
+                alert(`Ошибка запроса: ${error}`);
+              }
             },
           })
       );

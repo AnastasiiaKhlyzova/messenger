@@ -30,7 +30,12 @@ export class Modal extends Block {
           const input = document.querySelector(
             "#find-user"
           ) as HTMLInputElement;
-          UserController.userSearch({ login: input.value });
+
+          try {
+            UserController.userSearch({ login: input.value });
+          } catch (error) {
+            alert(`Ошибка запроса: ${error}`);
+          }
         },
       }),
       input_find_user: new InputField({
@@ -57,15 +62,26 @@ export class Modal extends Block {
       const currentState = store.getState();
       this.children.usersList = newProps.usersSearchResult?.map(user => {
         const handler = () => {
-          ChatController.addUsersToChat({
-            users: [user.id],
-            chatId: currentState.currentChat!,
-          }).then(() => {
-            const currentState = store.getState();
-            ChatController.getUsersInChat(currentState.currentChat!);
-          });
+          try {
+            ChatController.addUsersToChat({
+              users: [user.id],
+              chatId: currentState.currentChat!,
+            })
+              .then(() => {
+                try {
+                  const currentState = store.getState();
+                  ChatController.getUsersInChat(currentState.currentChat!);
+                } catch (error) {
+                  alert(`Ошибка при получении пользователей в чате: ${error}`);
+                }
+              })
+              .catch(error => {
+                alert(`Ошибка при добавлении пользователей в чат: ${error}`);
+              });
+          } catch (error) {
+            alert(`Неожиданная ошибка при добавлении пользователей: ${error}`);
+          }
         };
-
         return new UserItem({
           login: user.login,
           handler: handler,

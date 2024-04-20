@@ -29,9 +29,21 @@ export class ModalCreateChat extends Block {
             "#chat-title"
           ) as HTMLInputElement;
 
-          ChatController.createChats({ title: input.value }).then(() => {
-            ChatController.getUsersChats();
-          });
+          try {
+            ChatController.createChats({ title: input.value })
+              .then(() => {
+                try {
+                  ChatController.getUsersChats();
+                } catch (innerError) {
+                  alert(`Ошибка при получении списка чатов: ${innerError}`);
+                }
+              })
+              .catch(error => {
+                alert(`Ошибка при создании чата: ${error}`);
+              });
+          } catch (error) {
+            alert(`Неожиданная ошибка при инициации создания чата: ${error}`);
+          }
         },
       }),
       input_title_chat: new InputField({
@@ -61,6 +73,8 @@ export class ModalCreateChat extends Block {
           ChatController.addUsersToChat({
             users: [user.id],
             chatId: currentState.currentChat!,
+          }).catch(error => {
+            alert(`Ошибка при добавлении пользователей в чат: ${error}`);
           });
         };
 
