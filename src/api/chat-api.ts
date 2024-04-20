@@ -4,40 +4,35 @@ import {
   CreateChatRequest,
   DeleteUserFromChatRequest,
 } from "./types";
+import { BASE_URL } from "./apiConfig";
 
 const chatAPIInstance = new HTTP();
 
 export default class ChatAPI {
+  static baseURL: string = BASE_URL;
   static createChat(data: CreateChatRequest) {
-    return chatAPIInstance.post("https://ya-praktikum.tech/api/v2/chats", {
+    return chatAPIInstance.post(`${this.baseURL}/chats`, {
       data,
     });
   }
 
-  static AddUsers(data: AddUsersRequest) {
-    return chatAPIInstance.put("https://ya-praktikum.tech/api/v2/chats/users", {
+  static addUsers(data: AddUsersRequest) {
+    return chatAPIInstance.put(`${this.baseURL}/chats/users`, {
       data,
     });
   }
 
   static getChats() {
-    return chatAPIInstance.get("https://ya-praktikum.tech/api/v2/chats");
+    return chatAPIInstance.get(`${this.baseURL}/chats`);
   }
   static getChatToken(id: number): Promise<XMLHttpRequest> {
-    return chatAPIInstance.post(
-      `https://ya-praktikum.tech/api/v2/chats/token/${id}`
-    );
+    return chatAPIInstance.post(`${this.baseURL}/chats/token/${id}`);
   }
 
   static getChatUsers(id: number) {
-    return chatAPIInstance.get(
-      `https://ya-praktikum.tech/api/v2/chats/${id}/users`
-    );
+    return chatAPIInstance.get(`${this.baseURL}/chats/${id}/users`);
   }
   static DeleteUserFromChat(data: DeleteUserFromChatRequest) {
-    return chatAPIInstance.delete(
-      `https://ya-praktikum.tech/api/v2/chats/users`,
-      { data }
-    );
+    return chatAPIInstance.delete(`${this.baseURL}/chats/users`, { data });
   }
 }

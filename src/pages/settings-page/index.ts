@@ -11,6 +11,7 @@ import AuthController from "../../controllers/auth-controller";
 import { UpdateProfileRequest } from "../../api/types";
 import isBlock from "../../tools/BlockGuard";
 import { filterEmptyStrings } from "../../tools/helpers";
+import { BASE_URL } from "../../api/apiConfig";
 
 interface Props {
   isFirstNameError?: boolean;
@@ -30,6 +31,7 @@ export class SettingsPage extends Block {
         download: () => {
           this.initAvatarChange();
         },
+        baseUrl: BASE_URL,
       }),
       input_avatar: new Input({
         title: "Downloud image",
@@ -116,22 +118,7 @@ export class SettingsPage extends Block {
         page: "chat",
         className: "button-primary",
         type: "submit",
-        // onClick: e => {
-        //   const target = e!.target as HTMLInputElement;
-        //   const formData = new FormData(target.form!);
 
-        //   const userObj = {} as UpdateProfileRequest;
-
-        //   Array.from(formData.entries()).forEach(
-        //     ([key, value]: [string, string]) => {
-        //       userObj[key] = value;
-        //     }
-        //   );
-        //   UserController.updateUserProfile(userObj).then(() =>
-        //     router.go("/messenger")
-        //   );
-        //   UserController.changeUserPassword(data);
-        // },
         onClick: e => {
           const target = e!.target as HTMLInputElement;
           const formData = new FormData(target.form!);
@@ -168,9 +155,11 @@ export class SettingsPage extends Block {
               oldPassword: passwordObj.old_password,
               newPassword: passwordObj.new_password,
             };
-            UserController.changeUserPassword(request).then(() =>
-              router.go("/messenger")
-            );
+            UserController.changeUserPassword(request)
+              .then(() => router.go("/messenger"))
+              .catch((error: string) => {
+                alert(`Ошибка запроса: ${error}`);
+              });
           }
 
           if (Object.values(userObj).some(value => value)) {
@@ -193,6 +182,7 @@ export class SettingsPage extends Block {
       }),
     });
     UserController.getUserInfo();
+
     store.on(StoreEvents.Updated, () => {
       this.setProps(store.getState());
     });
@@ -203,6 +193,37 @@ export class SettingsPage extends Block {
   }
 
   override componentDidUpdate(oldProps: Props, newProps: Props) {
+    if (newProps.user && isBlock(this.children.input_first_name)) {
+      this.children.input_first_name.setProps({
+        value: newProps.user.first_name,
+      });
+    }
+    if (newProps.user && isBlock(this.children.input_second_name)) {
+      this.children.input_second_name.setProps({
+        value: newProps.user.second_name,
+      });
+    }
+    if (newProps.user && isBlock(this.children.input_display_name)) {
+      this.children.input_display_name.setProps({
+        value: newProps.user.display_name,
+      });
+    }
+    if (newProps.user && isBlock(this.children.input_email)) {
+      this.children.input_email.setProps({
+        value: newProps.user.email,
+      });
+    }
+    if (newProps.user && isBlock(this.children.input_phone)) {
+      this.children.input_phone.setProps({
+        value: newProps.user.phone,
+      });
+    }
+    if (newProps.user && isBlock(this.children.input_login)) {
+      this.children.input_login.setProps({
+        value: newProps.user.login,
+      });
+    }
+
     if (
       oldProps.isFirstNameError !== newProps.isFirstNameError &&
       isBlock(this.children.input_first_name)
@@ -285,7 +306,7 @@ export class SettingsPage extends Block {
           "avatarImage"
         ) as HTMLImageElement;
 
-        avatarImage.src = `https://ya-praktikum.tech/api/v2/resources/${JSON.parse(avatar.response).avatar}`;
+        avatarImage.src = `${BASE_URL}/resources/${JSON.parse(avatar.response).avatar}`;
       })
       .catch(error => {
         console.error("Ошибка при обновлении аватара:", error);

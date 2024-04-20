@@ -4,6 +4,7 @@ import "./avatar.css";
 
 interface Props {
   download: () => void;
+  baseUrl: string;
 }
 
 export class Avatar extends Block {

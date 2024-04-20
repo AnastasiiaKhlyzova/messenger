@@ -11,7 +11,7 @@ export default class ChatController {
     return ChatAPI.createChat(data);
   }
   public static addUsersToChat(data: AddUsersRequest) {
-    ChatAPI.AddUsers(data);
+    return ChatAPI.addUsers(data);
   }
   public static ChatTokenId(id: number) {
     return ChatAPI.getChatToken(id).then((token: XMLHttpRequest) => {
@@ -23,9 +23,9 @@ export default class ChatController {
   }
 
   public static getUsersChats() {
-    return ChatAPI.getChats().then((data: XMLHttpRequest) =>
-      store.dispatch("chats", JSON.parse(data.response))
-    );
+    return ChatAPI.getChats().then((data: XMLHttpRequest) => {
+      store.dispatch("chats", JSON.parse(data.response));
+    });
   }
   public static getUsersInChat(id: number) {
     return ChatAPI.getChatUsers(id).then((data: XMLHttpRequest) =>

@@ -5,38 +5,29 @@ import {
   UserSearchRequest,
 } from "./types";
 
+import { BASE_URL } from "./apiConfig";
+
 const userAPIInstance = new HTTP();
 
 export default class UserAPI {
+  static baseURL: string = BASE_URL;
   static updateProfile(data: UpdateProfileRequest) {
-    return userAPIInstance.put(
-      "https://ya-praktikum.tech/api/v2/user/profile",
-      { data }
-    );
+    return userAPIInstance.put(`${this.baseURL}/user/profile`, { data });
   }
 
   static updateAvatar(data: FormData) {
-    return userAPIInstance.put(
-      "https://ya-praktikum.tech/api/v2/user/profile/avatar",
-      { data }
-    );
+    return userAPIInstance.put(`${this.baseURL}/user/profile/avatar`, { data });
   }
 
   static changePassword(data: ChangePasswordRequest) {
-    return userAPIInstance.put(
-      "https://ya-praktikum.tech/api/v2/user/password",
-      { data }
-    );
+    return userAPIInstance.put(`${this.baseURL}/user/password`, { data });
   }
 
   static UserInfo() {
-    return userAPIInstance.get("https://ya-praktikum.tech/api/v2/auth/user");
+    return userAPIInstance.get(`${this.baseURL}/auth/user`);
   }
 
   static userSearch(data: UserSearchRequest) {
-    return userAPIInstance.post(
-      "https://ya-praktikum.tech/api/v2/user/search",
-      { data }
-    );
+    return userAPIInstance.post(`${this.baseURL}/user/search`, { data });
   }
 }

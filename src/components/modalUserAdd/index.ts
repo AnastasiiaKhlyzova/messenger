@@ -60,6 +60,9 @@ export class Modal extends Block {
           ChatController.addUsersToChat({
             users: [user.id],
             chatId: currentState.currentChat!,
+          }).then(() => {
+            const currentState = store.getState();
+            ChatController.getUsersInChat(currentState.currentChat!);
           });
         };
 

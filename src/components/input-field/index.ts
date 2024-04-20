@@ -4,30 +4,41 @@ import "./input-field.css";
 import InputFieldRaw from "./input-field.hbs";
 import { Input } from "../input";
 import { ComponentsName } from "../../tools/validationRules";
+import isBlock from "../../tools/BlockGuard";
 
-interface Props {
+interface InputFieldProps {
   type: string;
   name: ComponentsName;
   id: number | string;
   onChange: (value?: boolean) => void;
   title?: string;
   className?: string;
+  value?: string;
 }
 
 export class InputField extends Block {
-  constructor(props: Props) {
+  constructor(inputFieldProps: InputFieldProps) {
     super({
-      ...props,
+      ...inputFieldProps,
       input: new Input({
-        type: props.type,
-        id: props.id,
-        name: props.name,
-        onChange: props.onChange,
+        type: inputFieldProps.type,
+        id: inputFieldProps.id,
+        name: inputFieldProps.name,
+        onChange: inputFieldProps.onChange,
+        value: inputFieldProps.value,
       }),
     });
   }
 
   override render() {
     return this.compile(InputFieldRaw, this.props);
+  }
+
+  override componentDidUpdate(oldProps: any, newProps: any): boolean {
+    if (newProps.value && isBlock(this.children.input)) {
+      this.children.input.setProps({ value: newProps.value });
+    }
+
+    return true;
   }
 }

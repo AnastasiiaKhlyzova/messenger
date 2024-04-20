@@ -7,6 +7,7 @@ interface Props {
   navigate: () => void;
   url?: string;
   className?: string;
+  baseUrl: string;
 }
 export class ProfileSettings extends Block {
   constructor(props: Props) {

@@ -43,6 +43,9 @@ export class ModalUserDelete extends Block {
           ChatController.DeleteUserFromChat({
             users: [user.id],
             chatId: currentState.currentChat!,
+          }).then(() => {
+            const currentState = store.getState();
+            ChatController.getUsersInChat(currentState.currentChat!);
           });
         };
         return new UserItem({

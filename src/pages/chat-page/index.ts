@@ -8,6 +8,7 @@ import store, { StoreEvents, User } from "../../tools/Store";
 import router from "../../tools/router";
 import { MessageBlock } from "../../components/messageBlock";
 import isBlock from "../../tools/BlockGuard";
+import { BASE_URL } from "../../api/apiConfig";
 
 interface Props {
   [key: string]: unknown;
@@ -22,6 +23,7 @@ export class ChatPage extends Block {
         navigate: () => {
           router.go("/settings");
         },
+        baseUrl: BASE_URL,
       }),
 
       sidebar: new ChatSidebar({}),
@@ -34,7 +36,6 @@ export class ChatPage extends Block {
     });
   }
 
-  init() {}
   override componentDidUpdate(_oldProps: Props, newProps: { user?: User }) {
     if (newProps.user && isBlock(this.children.profile)) {
       this.children.profile.setProps({ url: newProps.user.avatar });

@@ -4,25 +4,26 @@ import { validate } from "../../tools/validate";
 import { ComponentsName } from "../../tools/validationRules";
 import "./input.css";
 
-interface Props {
+interface InputProps {
   name: ComponentsName;
   onChange: (arg: boolean) => void;
   type: string;
   id: string | number;
   title?: string;
   className?: string;
+  value?: string;
 }
 
 export class Input extends Block {
-  constructor(props: Props) {
+  constructor(inputProps: InputProps) {
     super({
-      ...props,
+      ...inputProps,
 
       events: {
         blur: (e: FocusEvent) => {
           const target = e.target as HTMLInputElement;
-          const name = props.name;
-          const onChange = props.onChange;
+          const name = inputProps.name;
+          const onChange = inputProps.onChange;
 
           const isValid = validate(name, target.value);
           if (isValid) {
