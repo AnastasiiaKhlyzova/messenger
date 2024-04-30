@@ -1,6 +1,6 @@
-import { ComponentsName } from './validationRules';
+import { ComponentsName } from "./validationRules";
 
-import { validate } from './validate';
+import { validate } from "./validate";
 
 // Функция для сбора данных формы и валидации
 export function submit(e: SubmitEvent) {
@@ -15,11 +15,11 @@ export function submit(e: SubmitEvent) {
   const formData: { [key: string]: string } = {};
   let isValid = true;
 
-  Array.from(form.elements).forEach((element) => {
+  Array.from(form.elements).forEach(element => {
     if (
-      element instanceof HTMLInputElement
-      || element instanceof HTMLSelectElement
-      || element instanceof HTMLTextAreaElement
+      element instanceof HTMLInputElement ||
+      element instanceof HTMLSelectElement ||
+      element instanceof HTMLTextAreaElement
     ) {
       const { name, value } = element;
       if (name) {
@@ -33,8 +33,8 @@ export function submit(e: SubmitEvent) {
   });
 
   if (isValid) {
-    console.log('Форма валидна, данные формы:', formData); // Выводим данные, если форма валидна
+    console.log("Форма валидна, данные формы:", formData); // Выводим данные, если форма валидна
   } else {
-    console.log('Форма содержит невалидные данные, отправка отменена.');
+    console.log("Форма содержит невалидные данные, отправка отменена.");
   }
 }

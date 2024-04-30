@@ -30,5 +30,11 @@
   padding: 0;
 }
 
+.button-for-chat {
+  width: 140px;
+  color: var(--button-color-primary);
+  background-color: var(--button-bgcolor);
+  border-radius: 40px;
+}
 
-
+ 

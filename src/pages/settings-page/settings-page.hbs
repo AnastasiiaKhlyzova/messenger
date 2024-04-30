@@ -2,7 +2,11 @@
 <div class="settings-page-wrapper">
   <form class="settings-page">
     <div class="settings-header">   
-      <img src="assets/images/avatar.png" alt="avatar.png">
+      {{!-- <img src="assets/images/avatar.png" alt="avatar.png" id="avatarImage" style="cursor: pointer">
+        <!-- Скрытый элемент для выбора файла -->
+      <input type="file" id="avatarInput" style="display: none;" accept="image/*"> --}}
+        {{{ avatar }}}
+        {{{ input_avatar }}}
     </div>
   
     <main class="settings-page-content">
@@ -12,7 +16,8 @@
         {{{ input_email }}}
         {{{ input_phone }}}
         {{{ input_login }}}
-        {{{ button }}} 
+        {{!-- {{{ button }}}  --}}
+        <div class="change-password-text">Change password</div>
       <div class="settings-password">
         {{{ input_oldPassword }}}
         {{{ input_newPassword }}}
@@ -20,17 +25,10 @@
     </main>
     <div class="settings-page-footer">
          {{{ button_second }}} 
+         {{{ button_signout }}} 
     </div>
 
   </form>
- <nav class="links">
-    <a onclick="window.navigate('500-error')">500</a>
-    <a onclick="window.navigate('404-error')">404</a>
-    <a onclick="window.navigate('login')">login-page</a>
-    <a onclick="window.navigate('registration')">registration-page</a>
-    <a onclick="window.navigate('chat')">chat-page</a>
-  </nav>
-
 </div>
 {{/ Dialog }}
 

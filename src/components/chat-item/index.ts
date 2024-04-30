@@ -1,20 +1,28 @@
-import Block from '../../tools/Block';
-import './chat-item.css';
+import Block from "../../tools/Block";
+import "./chat-item.css";
 
-import ChatItemRaw from './chat-item.hbs?raw';
+import ChatItemRaw from "./chat-item.hbs";
 
 interface Props {
-  [key: string]: unknown;
- }
+  click: () => void;
+  name: string;
+  lastMessage?: string;
+  unreadCount: number;
+}
 
 export class ChatItem extends Block {
   constructor(props: Props) {
     super({
       ...props,
+      events: {
+        click: () => {
+          props.click();
+        },
+      },
     });
   }
 
-  render() {
-    return ChatItemRaw;
+  override render() {
+    return this.compile(ChatItemRaw, this.props);
   }
 }

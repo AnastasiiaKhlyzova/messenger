@@ -1,23 +1,20 @@
-import Block from '../../tools/Block';
-import './message-item.css';
+import Block from "../../tools/Block";
+import "./message-item.css";
 
-import MessageItemRaw from './message-item.hbs?raw';
+import MessageItemRaw from "./message-item.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 
 export class MessageItem extends Block {
   constructor(props: Props) {
     super({
       ...props,
-      events: {
-        click: () => console.log('event'),
-      },
     });
   }
 
-  render() {
-    return MessageItemRaw;
+  override render() {
+    return this.compile(MessageItemRaw, this.props);
   }
 }

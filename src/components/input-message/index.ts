@@ -1,37 +1,41 @@
-import Block from '../../tools/Block';
-import './input-message.css';
+import Block from "../../tools/Block";
+import store from "../../tools/Store";
+import { validate } from "../../tools/validate";
+import { ComponentsName } from "../../tools/validationRules";
+import "./input-message.css";
 
-import InputMessageRaw from './input-message.hbs?raw';
+import InputMessageRaw from "./input-message.hbs";
 
 interface Props {
   [key: string]: unknown;
- }
+}
 export class InputMessage extends Block {
   constructor(props: Props) {
     super({
       ...props,
       events: {
+        submit: (e: SubmitEvent) => {
+          e.preventDefault();
+          const form = e.target as HTMLFormElement;
+          const inputElement = form.elements.namedItem(
+            "message"
+          ) as HTMLInputElement;
+          const message = inputElement.value;
+          if (!validate(ComponentsName.MESSAGE, message)) {
+            alert("Сообщение не должно быть пустым");
+            return;
+          }
 
-        submit: () => console.log('submit message'),
+          const currentStore = store.getState();
+          const currentSocket = currentStore.currentSocket;
 
+          currentSocket?.sendMessage(message);
+        },
       },
-
     });
   }
 
-  render() {
-    return InputMessageRaw;
+  override render() {
+    return this.compile(InputMessageRaw, this.props);
   }
-  // for future
-  // validate(e) {
-  //   e.preventDefault();
-  //   const { name, value } = this.props;
-  //   console.log(name);
-  //   const rule = validationRules[name];
-  //   if (!rule.test(value)) {
-  //     console.error(`Ошибка: значение поля ${name} невалидно.`);
-  //   } else {
-  //     console.log(`Поле ${name} валидно.`);
-  //   }
-  // }
 }

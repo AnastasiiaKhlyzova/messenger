@@ -5,6 +5,35 @@
     flex-direction: column;
     padding: 15px; 
     margin: 0 auto; 
+    overflow: hidden;
+    gap:32px;
+   
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    position: sticky;
+    margin-bottom: 20px;;
+   
+}
 
+.input-message {
+    margin-top: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 72%;
+    padding-bottom: 20px;
+}
+    
+.messages {
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: scroll;
+    max-height: 77vh;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+} 

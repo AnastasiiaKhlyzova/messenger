@@ -1,22 +1,29 @@
-import InputRaw from './input.hbs?raw';
-import Block from '../../tools/Block';
-import { validate } from '../../tools/validate';
-import { ComponentsName } from '../../tools/validationRules';
+import InputRaw from "./input.hbs";
+import Block from "../../tools/Block";
+import { validate } from "../../tools/validate";
+import { ComponentsName } from "../../tools/validationRules";
+import "./input.css";
 
-interface Props {
-  [key: string]: unknown;
- }
+interface InputProps {
+  name: ComponentsName;
+  onChange: (arg: boolean) => void;
+  type: string;
+  id: string | number;
+  title?: string;
+  className?: string;
+  value?: string;
+}
 
 export class Input extends Block {
-  constructor(props: Props) {
+  constructor(inputProps: InputProps) {
     super({
-      ...props,
+      ...inputProps,
 
       events: {
         blur: (e: FocusEvent) => {
           const target = e.target as HTMLInputElement;
-          const name = props.name as ComponentsName;
-          const onChange = props.onChange as (arg: boolean) => void;
+          const name = inputProps.name;
+          const onChange = inputProps.onChange;
 
           const isValid = validate(name, target.value);
           if (isValid) {
@@ -26,11 +33,10 @@ export class Input extends Block {
           }
         },
       },
-
     });
   }
 
-  render() {
-    return InputRaw;
+  override render() {
+    return this.compile(InputRaw, this.props);
   }
 }

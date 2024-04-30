@@ -1,48 +1,60 @@
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type Method = "GET" | "POST" | "PUT" | "DELETE";
 
 const METHODS: Record<Method, Method> = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  DELETE: "DELETE",
 };
 
 interface Options {
-    headers?: Record<string, string>;
-    method?: Method;
-    data?: Record<string, unknown>;
-    timeout?: number;
+  headers?: Record<string, string>;
+  method?: Method;
+  data?: Record<string, any>;
+  timeout?: number;
 }
 
 type QueryString = string;
 
-type HTTPMethod = (url: string, options?: Options) => Promise<XMLHttpRequest>
+type HTTPMethod = (url: string, options?: Options) => Promise<XMLHttpRequest>;
 
 function queryStringify(data: Record<string, unknown>): QueryString {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
+  if (typeof data !== "object") {
+    throw new Error("Data must be object");
   }
 
   const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
+  return keys.reduce(
+    (result, key, index) =>
+      `${result}${key}=${data[key]}${index < keys.length - 1 ? "&" : ""}`,
+    "?"
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-class HTTPTransport {
-  get: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.GET }, options?.timeout);
+export default class HTTPTransport {
+  get: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.GET }, options?.timeout);
 
-  post: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.POST }, options?.timeout);
+  post: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.POST }, options?.timeout);
 
-  put: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.PUT }, options?.timeout);
+  put: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.PUT }, options?.timeout);
 
-  delete: HTTPMethod = (url, options) => this.request(url, { ...options, method: METHODS.DELETE }, options?.timeout);
+  delete: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHODS.DELETE }, options?.timeout);
 
-  request(url: string, options: Options = {}, timeout: number = 5000): Promise<XMLHttpRequest> {
+  request(
+    url: string,
+    options: Options = {},
+    timeout: number = 5000
+  ): Promise<XMLHttpRequest> {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
-        reject(new Error('No method'));
+        reject(new Error("No method"));
         return;
       }
 
@@ -51,10 +63,12 @@ class HTTPTransport {
 
       xhr.open(
         method,
-        isGet && data ? `${url}${queryStringify(data as Record<string, unknown>)}` : url, // Предполагается, что data - это объект
+        isGet && data
+          ? `${url}${queryStringify(data as Record<string, unknown>)}`
+          : url // Предполагается, что data - это объект
       );
 
-      Object.keys(headers).forEach((key) => {
+      Object.keys(headers).forEach(key => {
         xhr.setRequestHeader(key, headers[key]);
       });
 
@@ -62,17 +76,20 @@ class HTTPTransport {
         resolve(xhr);
       };
 
-      xhr.onabort = () => reject(new Error('Request was aborted'));
-      xhr.onerror = () => reject(new Error('Request failed'));
+      xhr.onabort = () => reject(new Error("Request was aborted"));
+      xhr.onerror = () => reject(new Error("Request failed"));
 
       xhr.timeout = timeout;
-      xhr.ontimeout = () => reject(new Error('Request timeout exceeded'));
+      xhr.withCredentials = true;
+      xhr.ontimeout = () => reject(new Error("Request timeout exceeded"));
 
-      if (!isGet && data) {
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-      } else {
+      if (method === "GET" || !data) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
+      } else {
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(data));
       }
     });
   }

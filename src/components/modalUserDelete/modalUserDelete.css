@@ -1,0 +1,38 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(230 235 246 / 50%);
+  backdrop-filter: blur(11px);
+}
+
+.wrapper {
+  z-index: 1001;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  outline: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  border-radius: 8px;
+  box-shadow: 3px 8px 14px 0 rgb(0 0 0 / 5%);
+  z-index: 105;
+  background: var(--white);
+  position: relative;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  width: 470px;
+
+}
+ 

@@ -1,22 +1,32 @@
-import Block from '../../tools/Block';
-import './profile-settings.css';
+import Block from "../../tools/Block";
+import "./profile-settings.css";
 
-import ProfileSettingsRaw from './profile-settings.hbs?raw';
+import ProfileSettingsRaw from "./profile-settings.hbs";
 
 interface Props {
-  [key: string]: unknown;
- }
+  navigate: () => void;
+  url?: string;
+  className?: string;
+  baseUrl: string;
+}
 export class ProfileSettings extends Block {
   constructor(props: Props) {
     super({
       ...props,
       events: {
-        click: () => console.log('event'),
+        click: (e: SubmitEvent) => {
+          e.preventDefault();
+
+          if (props.navigate) {
+            const navigate = props.navigate as () => void;
+            navigate();
+          }
+        },
       },
     });
   }
 
-  render() {
-    return ProfileSettingsRaw;
+  override render() {
+    return this.compile(ProfileSettingsRaw, this.props);
   }
 }

@@ -1,24 +1,47 @@
-import Block from '../../tools/Block';
-import './input-field.css';
+import Block from "../../tools/Block";
+import "./input-field.css";
 
-import InputFieldRaw from './input-field.hbs?raw';
-import { Input } from '../input';
+import InputFieldRaw from "./input-field.hbs";
+import { Input } from "../input";
+import { ComponentsName } from "../../tools/validationRules";
+import isBlock from "../../tools/BlockGuard";
 
-interface Props {
-  [key: string]: unknown;
+interface InputFieldProps {
+  type: string;
+  name: ComponentsName;
+  id: number | string;
+  onChange: (value?: boolean) => void;
+  title?: string;
+  className?: string;
+  value?: string;
 }
 
 export class InputField extends Block {
-  constructor(props: Props) {
+  constructor(inputFieldProps: InputFieldProps) {
     super({
-      ...props,
+      ...inputFieldProps,
       input: new Input({
-        type: props.type, id: props.id, name: props.name, onChange: props.onChange,
+        type: inputFieldProps.type,
+        id: inputFieldProps.id,
+        name: inputFieldProps.name,
+        onChange: inputFieldProps.onChange,
+        value: inputFieldProps.value,
       }),
     });
   }
 
-  render() {
-    return InputFieldRaw;
+  override render() {
+    return this.compile(InputFieldRaw, this.props);
+  }
+
+  override componentDidUpdate(
+    _oldProps: unknown,
+    newProps: { value: string }
+  ): boolean {
+    if (newProps.value && isBlock(this.children.input)) {
+      this.children.input.setProps({ value: newProps.value });
+    }
+
+    return true;
   }
 }
