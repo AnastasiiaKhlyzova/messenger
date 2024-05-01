@@ -36,7 +36,7 @@ describe("Router", () => {
     router.use("/", MyBlock).use("/test", MyBlock2).start();
     router.go("/test");
 
-    // @ts-expect-error
+    // @ts-expect-error тестируем приватное поле
     expect(router._currentRoute.pathname).to.equal("/test");
   });
 });
