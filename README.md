@@ -20,8 +20,6 @@
 
 https://messengeranastasia.netlify.app/
 
-Настроен роутинг между страницами.
-
 ## Стек технологий
 
 Проект мессенджера использует следующий стек технологий:
@@ -50,7 +48,7 @@ https://messengeranastasia.netlify.app/
 
 ## Разработчик
 
-Анастасия Хлызова https://github.com/Anastasiia171
+Анастасия Хлызова 
 
 ## Ссылка на макет в Figma
 
